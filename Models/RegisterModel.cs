@@ -4,19 +4,23 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FundooNotes1.Model
+namespace Model
 {
     public class RegisterModel
     {
         [Key]
-        public string id { get; set; }
+        public int id { get; set; }
 
+        [Required]
         public string firstName { get; set; }
         
+        [Required]
         public string lastName { get; set; }
-        
+
+        [Required]
         public string email { get; set; }
         
+        [Required]
         public string password { get; set; }
 
 
