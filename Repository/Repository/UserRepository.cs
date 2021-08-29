@@ -43,5 +43,26 @@ namespace FundooNotes1.Repository
             string encodedPassword = Convert.ToBase64String(passwordInBytes);
             return encodedPassword;
         }
+
+        public bool Login(string emailId, string password)
+        {
+            try
+            {
+                string encodePassword = EncryptPassword(password);
+                var login = this.userContext.user.Where(x => x.email == emailId && x.password == encodePassword).FirstOrDefault();
+                if(login!=null)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
     }
 }

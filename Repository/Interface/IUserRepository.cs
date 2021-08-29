@@ -9,5 +9,6 @@ namespace Repository.Inteface
     public interface IUserRepository
     {
         bool Register(RegisterModel userData);
+        bool Login(string emailId, string password);
     }
 }

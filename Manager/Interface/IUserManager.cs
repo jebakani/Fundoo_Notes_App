@@ -10,5 +10,7 @@ namespace Manager.Interface
     public interface IUserManager
     {
         bool Register(RegisterModel userData);
+        bool Login(string emailId, string password);
     }
+
 }

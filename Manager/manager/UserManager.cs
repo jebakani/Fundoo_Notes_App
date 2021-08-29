@@ -16,6 +16,19 @@ namespace Manager.manager
         {
             this.repository = repository;
         }
+
+        public bool Login(string emailId, string password)
+        {
+            try
+            {
+                return this.repository.Login(emailId,password);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
         public bool Register(RegisterModel userData)
         {
             try
