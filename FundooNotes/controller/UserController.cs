@@ -39,11 +39,11 @@ namespace FundooNotes.controller
         }
         [HttpGet]
         [Route("api/login")]
-        public IActionResult Login( string emailId, string password)
+        public IActionResult Login([FromBody]LoginModel loginData)
         {
             try
             {
-                bool result = this.manager.Login(emailId,password);
+                bool result = this.manager.Login(loginData.EmailId,loginData.passWord);
                 if (result == true)
                 {
                     return this.Ok(new ResponseModel<string>() { status = true, message = "Login Successful" });
