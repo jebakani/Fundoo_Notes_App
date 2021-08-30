@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Manager.manager
 {
+    //user manager access the repository and get the data from the repository
     public class UserManager:IUserManager
     {
         private readonly IUserRepository repository;
@@ -17,6 +18,7 @@ namespace Manager.manager
             this.repository = repository;
         }
 
+        //it passess the login details and returns the result
         public bool Login(string emailId, string password)
         {
             try
@@ -29,6 +31,7 @@ namespace Manager.manager
             }
         }
 
+        //register passess the user data to the repository
         public bool Register(RegisterModel userData)
         {
             try

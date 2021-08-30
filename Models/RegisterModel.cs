@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace Model
 {
+    //register model contains the user details
+    //it acts as the data transfer medium
     public class RegisterModel
     {
         [Key]

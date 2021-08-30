@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Repository.Inteface
 {
+    //interface for the userRepository
     public interface IUserRepository
     {
         bool Register(RegisterModel userData);
