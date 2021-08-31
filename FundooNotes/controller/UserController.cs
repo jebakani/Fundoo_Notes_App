@@ -71,6 +71,7 @@ namespace FundooNotes.Controller
         /// </summary>
         /// <param name="loginData">Login data contains emailId and password</param>
         /// <returns>result of the action</returns>
+        [HttpGet]
         [Route("api/login")]
         public IActionResult Login([FromBody]LoginModel loginData)
         {
@@ -106,6 +107,30 @@ namespace FundooNotes.Controller
             try
             {
                 bool result = this.manager.ForgetPassword(email);
+                if (result == true)
+                {
+                    ////Creates a OkResult object that produces an empty Status200OK response.
+                    return this.Ok(new ResponseModel<string>() { status = true, message = "Link to reset password is send to mail" });
+                }
+                else
+                {
+                    ////Creates an BadRequestResult that produces a Status400BadRequest response.
+                    return this.BadRequest(new ResponseModel<string>() { status = false, message = "Reset password Unsuccessfull" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { status = false, message = ex.Message });
+            }
+        }
+
+        [HttpPut]
+        [Route("api/resetPassword")]
+        public IActionResult ResetPassword([FromBody]ResetPasswordModel resetPassword)
+        {
+            try
+            {
+                bool result = this.manager.ResetPassword(resetPassword);
                 if (result == true)
                 {
                     ////Creates a OkResult object that produces an empty Status200OK response.

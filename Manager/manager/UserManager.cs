@@ -14,6 +14,7 @@ namespace Manager.Manager
     using System.Threading.Tasks;
     using global::Manager.Interface;
     using Model;
+    using Models;
     using Repository.Inteface;
 
     /// <summary>
@@ -81,6 +82,18 @@ namespace Manager.Manager
             try
             {
                 return this.repository.Register(userData);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        public bool ResetPassword(ResetPasswordModel resetPassword)
+        {
+            try
+            {
+                return this.repository.ResetPassword(resetPassword);
             }
             catch (Exception e)
             {

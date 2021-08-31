@@ -13,6 +13,7 @@ namespace Manager.Interface
     using System.Text;
     using System.Threading.Tasks;
     using Model;
+    using Models;
 
     /// <summary>
     /// IUserManager Interface that contains the declaration for the UserManager method
@@ -40,5 +41,7 @@ namespace Manager.Interface
         /// <param name="emailId">email id of type string</param>
         /// <returns>returns true or false</returns>
         bool ForgetPassword(string emailId);
+
+        bool ResetPassword(ResetPasswordModel resetPassword);
     }
 }

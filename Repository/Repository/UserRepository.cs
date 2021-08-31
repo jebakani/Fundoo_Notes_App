@@ -11,6 +11,8 @@ namespace FundooNotes1.Repository
     using global::Repository.Context;
     using global::Repository.Inteface;
     using Model;
+    using Models;
+
     //using Repository.Context;
     //using Repository.Inteface;
 
@@ -158,6 +160,34 @@ namespace FundooNotes1.Repository
             smtp.Credentials = new NetworkCredential("17cse12jebakaniishwaryav@gmail.com", "Jebakani2000");
             smtp.Send(mailMessage);
             return true;
+        }
+
+        public bool ResetPassword(ResetPasswordModel resetPassword)
+        {
+            try
+            {
+                if (resetPassword != null)
+                {
+                    var userData= this.userContext.user.Where(x => x.email == resetPassword.EmailId).FirstOrDefault();
+
+                    if (userData != null)
+                    {
+                        //encrypting the password
+                        userData.password = EncryptPassword(resetPassword.NewPassword);
+                        ////add the data to the data base using user context 
+                        //this.userContext.Add(userData);
+                        //save the change in data base
+                        this.userContext.SaveChanges();
+                        return true;
+                    }
+                    return false;
+                }
+                return false;
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }
