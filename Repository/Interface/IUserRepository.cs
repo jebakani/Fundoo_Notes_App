@@ -11,5 +11,6 @@ namespace Repository.Inteface
     {
         bool Register(RegisterModel userData);
         bool Login(string emailId, string password);
+        bool ForgetPassword(string emailId);
     }
 }

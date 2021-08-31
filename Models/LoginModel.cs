@@ -12,6 +12,6 @@ namespace Models
         [Required]
         public string EmailId { get; set; }
         [Required]
-        public string passWord { get; set; }
+        public string Password { get; set; }
     }
 }

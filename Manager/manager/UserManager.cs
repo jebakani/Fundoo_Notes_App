@@ -18,6 +18,18 @@ namespace Manager.manager
             this.repository = repository;
         }
 
+        public bool ForgetPassword(string emailId)
+        {
+            try
+            {
+                return this.repository.ForgetPassword(emailId);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
         //it passess the login details and returns the result
         public bool Login(string emailId, string password)
         {

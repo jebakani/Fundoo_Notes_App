@@ -1,12 +1,17 @@
-﻿using Model;
+﻿using System;
+using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Text;
+using Experimental.System.Messaging;
+using Model;
 using Repository.Context;
 using Repository.Inteface;
-using System;
-using System.Linq;
-using System.Text;
 
 namespace FundooNotes1.Repository
 {
+   
+   
     public class UserRepository : IUserRepository
     {
         private readonly UserContext userContext;
@@ -16,6 +21,7 @@ namespace FundooNotes1.Repository
         {
             this.userContext = userContext;
         }
+
         //method for register user
         public bool Register(RegisterModel userData)
         {
@@ -31,6 +37,7 @@ namespace FundooNotes1.Repository
                     this.userContext.SaveChanges();
                     return true;
                 }
+
                 return false;
             }
             catch (ArgumentNullException ex)
@@ -74,6 +81,62 @@ namespace FundooNotes1.Repository
             {
                 throw new Exception(e.Message);
             }
+        }
+        public bool ForgetPassword(string email)
+        {
+            try
+            {
+                return (MSMQSend(email));
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+        public bool MSMQSend(string email)
+        {
+            MessageQueue messageQueue;
+            if(MessageQueue.Exists(@".\Private$\MyQueue"))
+            {
+                messageQueue = new MessageQueue(@".\Private$\MyQueue");
+            }
+            else
+            {
+                messageQueue = MessageQueue.Create(@".\Private$\MyQueue");
+            }
+            Message message = new Message();
+            message.Formatter = new BinaryMessageFormatter();
+            message.Body = "Link to reset password";
+            messageQueue.Label = "url link";
+            messageQueue.Send(message);
+
+            //for reading from MSMQ
+            var receiveQueue = new MessageQueue(@".\Private$\MyQueue");
+            var receiveMsg = receiveQueue.Receive();
+            receiveMsg.Formatter = new BinaryMessageFormatter();
+
+            string linkToBeSend = receiveMsg.Body.ToString();
+            if(SendMail(email,linkToBeSend))
+            {
+                return true;
+            }
+            return false;
+        }
+        private bool SendMail(string email,string message)
+        {
+            MailMessage mailMessage = new MailMessage();
+            SmtpClient smtp = new SmtpClient();
+            mailMessage.From = new MailAddress("17cse12jebakaniishwaryav@gmail.com");
+            mailMessage.To.Add(new MailAddress(email));
+            mailMessage.Subject = "Link to reset you password for fundoo Application";
+            mailMessage.IsBodyHtml = true;
+            mailMessage.Body = message;
+            smtp.Port = 587;
+            smtp.Host = "smtp.gmail.com";
+            smtp.EnableSsl = true;
+            smtp.Credentials = new NetworkCredential("17cse12jebakaniishwaryav@gmail.com", "Jebakani2000");
+            smtp.Send(mailMessage);
+            return true;
         }
     }
 }
