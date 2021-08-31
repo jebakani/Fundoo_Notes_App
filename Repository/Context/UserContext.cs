@@ -6,7 +6,6 @@
 // ----------------------------------------------------------------------------------------------------------
 namespace Repository.Context
 {
-    
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -15,9 +14,23 @@ namespace Repository.Context
     using Microsoft.EntityFrameworkCore;
     using Model;
 
-    public class UserContext:DbContext
+    /// <summary>
+    /// User context class that extends the Database Context
+    /// </summary>
+    public class UserContext : DbContext
     {
-        public UserContext(DbContextOptions<UserContext> options) : base(options) { }
+        /// <summary>
+        /// Constructor that overrides the base option
+        /// Initializes a new instance of the <see cref="UserContext"/> class
+        /// </summary>
+        /// <param name="options">configurations</param>
+        public UserContext(DbContextOptions<UserContext> options) : base(options)
+        {
+        }
+
+        /// <summary>
+        /// Gets or sets the user table 
+        /// </summary>
         public DbSet<RegisterModel> user { get; set; }
     }
 }
