@@ -86,42 +86,61 @@ namespace FundooNotes1.Repository
         {
             try
             {
-                return (MSMQSend(email));
+               var validEmail= this.userContext.user.Where(x => x.email == email).FirstOrDefault();
+               if(validEmail!=null)
+               {
+                    MSMQSend("Link for resetting the password");
+                    return ReceiveQueue(email);
+               }
+               else
+               {
+                    return false;
+               }
             }
             catch(Exception e)
             {
                 throw new Exception(e.Message);
             }
         }
-        public bool MSMQSend(string email)
+        private MessageQueue QueueDetail()
         {
             MessageQueue messageQueue;
-            if(MessageQueue.Exists(@".\Private$\MyQueue"))
+            if (MessageQueue.Exists(@".\Private$\ResetPasswordQueue"))
             {
-                messageQueue = new MessageQueue(@".\Private$\MyQueue");
+                messageQueue = new MessageQueue(@".\Private$\ResetPasswordQueue");
             }
             else
             {
-                messageQueue = MessageQueue.Create(@".\Private$\MyQueue");
+                messageQueue = MessageQueue.Create(@".\Private$\ResetPasswordQueue");
             }
+            return messageQueue;
+        }
+
+        private void MSMQSend(string url)
+        {
+            MessageQueue messageQueue = QueueDetail();
             Message message = new Message();
             message.Formatter = new BinaryMessageFormatter();
-            message.Body = "Link to reset password";
+            message.Body = url;
             messageQueue.Label = "url link";
             messageQueue.Send(message);
-
+        }
+            
+        private bool ReceiveQueue(string email)
+        {
             //for reading from MSMQ
-            var receiveQueue = new MessageQueue(@".\Private$\MyQueue");
+            var receiveQueue = new MessageQueue(@".\Private$\ResetPasswordQueue");
             var receiveMsg = receiveQueue.Receive();
             receiveMsg.Formatter = new BinaryMessageFormatter();
 
             string linkToBeSend = receiveMsg.Body.ToString();
-            if(SendMail(email,linkToBeSend))
+            if (SendMail(email, linkToBeSend))
             {
                 return true;
             }
             return false;
         }
+
         private bool SendMail(string email,string message)
         {
             MailMessage mailMessage = new MailMessage();
