@@ -10,7 +10,7 @@ namespace Models
     public class ResetPasswordModel
     {
         [Required]
-        [RegularExpression(@"^[a-zA-Z]{3}([\\- \\+ _\\.]*[a-zA-Z0-9]+)*@[a-zA-Z0-9]+\\.[a-z]{2,3}(\\.[a-zA-Z]{2,4}){0,1}$", ErrorMessage = "Invalid Email Id")]
+        [RegularExpression(@"^[a-zA-Z]{3}([\- \+ _\.]*[a-zA-Z0-9]+)*@[a-zA-Z0-9]+\.[a-z]{2,3}(\.[a-zA-Z]{2,4}){0,1}$", ErrorMessage = "Invalid Email Id")]
         public string EmailId { get; set; }
 
         [Required]

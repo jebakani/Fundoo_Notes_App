@@ -21,7 +21,7 @@ namespace Model
         public string LastName { get; set; }
 
         [Required]
-        [RegularExpression(@"^[a-zA-Z]{3}([\\- \\+ _\\.]*[a-zA-Z0-9]+)*@[a-zA-Z0-9]+\\.[a-z]{2,3}(\\.[a-zA-Z]{2,4}){0,1}$", ErrorMessage = "Invalid Email Id")]
+        [RegularExpression(@"^[a-zA-Z]{3}([\- \+ _\.]*[a-zA-Z0-9]+)*@[a-zA-Z0-9]+\.[a-z]{2,3}(\.[a-zA-Z]{2,4}){0,1}$", ErrorMessage = "Invalid Email Id")]
         public string Email { get; set; }
         
         [Required]

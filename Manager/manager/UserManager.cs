@@ -89,6 +89,11 @@ namespace Manager.Manager
             }
         }
 
+        /// <summary>
+        /// Method to reset password 
+        /// </summary>
+        /// <param name="resetPassword">reset model data</param>
+        /// <returns>returns the result in boolean</returns>
         public bool ResetPassword(ResetPasswordModel resetPassword)
         {
             try

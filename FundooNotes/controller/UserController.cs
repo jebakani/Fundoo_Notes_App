@@ -124,6 +124,11 @@ namespace FundooNotes.Controller
             }
         }
 
+        /// <summary>
+        /// Controller method to reset the password
+        /// </summary>
+        /// <param name="resetPassword">reset model data a</param>
+        /// <returns>returns the status such as success or fail</returns>
         [HttpPut]
         [Route("api/resetPassword")]
         public IActionResult ResetPassword([FromBody]ResetPasswordModel resetPassword)

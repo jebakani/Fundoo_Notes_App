@@ -43,7 +43,7 @@ namespace FundooNotes
         }
 
         /// <summary>
-        /// Get method to get Configuration
+        /// Gets method to get Configuration
         /// </summary>
         public IConfiguration Configuration { get; }
 
