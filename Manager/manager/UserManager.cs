@@ -1,23 +1,46 @@
-﻿using Repository.Inteface;
-using Manager.Interface;
-using Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="UserManager.cs" company="Bridgelabz">
+//   Copyright © 2021 Company="BridgeLabz"
+// </copyright>
+// <creator name="Jebakani Ishwarya"/>
+// ----------------------------------------------------------------------------------------------------------
 
-namespace Manager.manager
+namespace Manager.Manager
 {
-    //user manager access the repository and get the data from the repository
-    public class UserManager:IUserManager
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using global::Manager.Interface;
+    using Model;
+    using Repository.Inteface;
+
+    /// <summary>
+    /// user manager access the repository and get the data from the repository
+    /// </summary>
+    public class UserManager : IUserManager
     {
+        /// <summary>
+        /// Declaring object for the IUserRepository
+        /// </summary>
         private readonly IUserRepository repository;
+
+        /// <summary>
+        /// constructor for user manager
+        /// Initializes a new instance of the <see cref="UserManager"/> class
+        /// </summary>
+        /// <param name="repository">repository of type IUserRepository</param>
         public UserManager(IUserRepository repository)
         {
             this.repository = repository;
         }
 
+        /// <summary>
+        /// method to manage Forget password
+        /// </summary>
+        /// <param name="emailId">emailId of type string</param>
+        /// <returns>returns whether success or failure</returns>
         public bool ForgetPassword(string emailId)
         {
             try
@@ -30,12 +53,17 @@ namespace Manager.manager
             }
         }
 
-        //it passess the login details and returns the result
+        /// <summary>
+        /// it pass the login details and returns the result
+        /// </summary>
+        /// <param name="emailId"> emailId of type string</param>
+        /// <param name="password">password of type string</param>
+        /// <returns>returns whether success or failed</returns>
         public bool Login(string emailId, string password)
         {
             try
             {
-                return this.repository.Login(emailId,password);
+                return this.repository.Login(emailId, password);
             }
             catch (Exception e)
             {
@@ -43,18 +71,21 @@ namespace Manager.manager
             }
         }
 
-        //register passess the user data to the repository
+        /// <summary>
+        /// register pass the user data to the repository
+        /// </summary>
+        /// <param name="userData">user data contains the user details</param>
+        /// <returns>return true or false </returns>
         public bool Register(RegisterModel userData)
         {
             try
             {
                 return this.repository.Register(userData);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 throw new Exception(e.Message);
             }
         }
-
     }
 }

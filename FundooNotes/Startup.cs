@@ -13,7 +13,7 @@ namespace FundooNotes
     using System.Threading.Tasks;
     using FundooNotes1.Repository;
     using Manager.Interface;
-    using Manager.manager;
+    using Manager.Manager;
     using Microsoft.AspNetCore.Builder;   
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -43,7 +43,7 @@ namespace FundooNotes
         }
 
         /// <summary>
-        /// Gets method to get Configuration
+        /// Get method to get Configuration
         /// </summary>
         public IConfiguration Configuration { get; }
 

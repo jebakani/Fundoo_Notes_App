@@ -1,16 +1,19 @@
-﻿using System;
-using System.Linq;
-using System.Net;
-using System.Net.Mail;
-using System.Text;
-using Experimental.System.Messaging;
-using Model;
-using Repository.Context;
-using Repository.Inteface;
+﻿
 
 namespace FundooNotes1.Repository
 {
-   
+    using System;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Mail;
+    using System.Text;
+    using Experimental.System.Messaging;
+    using global::Repository.Context;
+    using global::Repository.Inteface;
+    using Model;
+    //using Repository.Context;
+    //using Repository.Inteface;
+
     public class UserRepository : IUserRepository
     {
         private readonly UserContext userContext;
