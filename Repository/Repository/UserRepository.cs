@@ -11,7 +11,6 @@ using Repository.Inteface;
 namespace FundooNotes1.Repository
 {
    
-   
     public class UserRepository : IUserRepository
     {
         private readonly UserContext userContext;
