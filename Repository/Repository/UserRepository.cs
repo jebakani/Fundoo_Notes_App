@@ -34,7 +34,7 @@ namespace FundooNotes1.Repository
                 if (userData != null)
                 {
                     //encrypting the password
-                    userData.password = EncryptPassword(userData.password);
+                    userData.Password = EncryptPassword(userData.Password);
                     //add the data to the data base using user context 
                     this.userContext.Add(userData);
                     //save the change in data base
@@ -70,7 +70,7 @@ namespace FundooNotes1.Repository
             {
                 string encodePassword = EncryptPassword(password);
                 //search the data base for particular email id and password . if any one is not match then return null
-                var login = this.userContext.user.Where(x => x.email == emailId && x.password == encodePassword).FirstOrDefault();
+                var login = this.userContext.user.Where(x => x.Email == emailId && x.Password == encodePassword).FirstOrDefault();
                //if the value not equal to null then return true
                 if (login != null)
                 {
@@ -90,7 +90,7 @@ namespace FundooNotes1.Repository
         {
             try
             {
-               var validEmail= this.userContext.user.Where(x => x.email == email).FirstOrDefault();
+               var validEmail= this.userContext.user.Where(x => x.Email == email).FirstOrDefault();
                if(validEmail!=null)
                {
                     MSMQSend("Link for resetting the password");
@@ -168,12 +168,12 @@ namespace FundooNotes1.Repository
             {
                 if (resetPassword != null)
                 {
-                    var userData= this.userContext.user.Where(x => x.email == resetPassword.EmailId).FirstOrDefault();
+                    var userData= this.userContext.user.Where(x => x.Email == resetPassword.EmailId).FirstOrDefault();
 
                     if (userData != null)
                     {
                         //encrypting the password
-                        userData.password = EncryptPassword(resetPassword.NewPassword);
+                        userData.Password = EncryptPassword(resetPassword.NewPassword);
                         ////add the data to the data base using user context 
                         //this.userContext.Add(userData);
                         //save the change in data base

@@ -10,8 +10,8 @@ namespace Models
     public class ResponseModel<T>
     {
         //status represent the true or false 
-        public bool status { get; set; }
-        public string message { get; set; }
-        public T data { get; set; } //data is optional whenever needed data is returned
+        public bool Status { get; set; }
+        public string Message { get; set; }
+        public T Data { get; set; } //data is optional whenever needed data is returned
     }
 }

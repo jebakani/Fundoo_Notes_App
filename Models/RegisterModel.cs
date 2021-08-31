@@ -14,16 +14,19 @@ namespace Model
         public int id { get; set; }
 
         [Required]
-        public string firstName { get; set; }
+        [RegularExpression(@"^[A-Z][a-z]{2}[a-z]*$",ErrorMessage ="First name is invalid")]
+        public string FirstName { get; set; }
         
         [Required]
-        public string lastName { get; set; }
+        public string LastName { get; set; }
 
         [Required]
-        public string email { get; set; }
+        [RegularExpression(@"^[a-zA-Z]{3}([\\- \\+ _\\.]*[a-zA-Z0-9]+)*@[a-zA-Z0-9]+\\.[a-z]{2,3}(\\.[a-zA-Z]{2,4}){0,1}$", ErrorMessage = "Invalid Email Id")]
+        public string Email { get; set; }
         
         [Required]
-        public string password { get; set; }
+        [RegularExpression(@"^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?!.*[<>`])(?=[^.,:;'!@#$%^&*_+=|(){}[?\-\]\/\\]*[.,:;'!@#$%^&*_+=|(){}[?\-\]\/\\][^.,:;'!@#$%^&*_+=|(){}[?\-\]\/\\]*$).{8,}$", ErrorMessage = "Invalid Password")]
+        public string Password { get; set; }
 
 
     }

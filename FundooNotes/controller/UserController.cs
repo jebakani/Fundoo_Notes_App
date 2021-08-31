@@ -52,17 +52,17 @@ namespace FundooNotes.Controller
                 if (result == true)
                 {
                     ////Creates a OkResult object that produces an empty Status200OK response.
-                    return this.Ok(new ResponseModel<string>() { status = true, message = "Registration Successful" });
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Registration Successful" });
                 }
                 else
                 {
                     ////Creates an BadRequestResult that produces a Status400BadRequest response.
-                    return this.BadRequest(new ResponseModel<string>() { status = false, message = "Registration UnSuccessful" });
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Registration UnSuccessful" });
                 }
             }
             catch (Exception ex)
             {
-                return this.NotFound(new ResponseModel<string>() { status = false, message = ex.Message });
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
 
@@ -81,17 +81,17 @@ namespace FundooNotes.Controller
                 if (result == true)
                 {
                     ////Creates a OkResult object that produces an empty Status200OK response.
-                    return this.Ok(new ResponseModel<string>() { status = true, message = "Login Successful" });
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Login Successful" });
                 }
                 else
                 {
                     ////Creates an BadRequestResult that produces a Status400BadRequest response.
-                    return this.BadRequest(new ResponseModel<string>() { status = false, message = "Login UnSuccessful" });
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Login UnSuccessful" });
                 }
             }
             catch (Exception ex)
             {
-                return this.NotFound(new ResponseModel<string>() { status = false, message = ex.Message });
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
 
@@ -110,17 +110,17 @@ namespace FundooNotes.Controller
                 if (result == true)
                 {
                     ////Creates a OkResult object that produces an empty Status200OK response.
-                    return this.Ok(new ResponseModel<string>() { status = true, message = "Link to reset password is send to mail" });
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Link to reset password is send to mail" });
                 }
                 else
                 {
                     ////Creates an BadRequestResult that produces a Status400BadRequest response.
-                    return this.BadRequest(new ResponseModel<string>() { status = false, message = "Reset password Unsuccessfull" });
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Reset password Unsuccessfull" });
                 }
             }
             catch (Exception ex)
             {
-                return this.NotFound(new ResponseModel<string>() { status = false, message = ex.Message });
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
 
@@ -134,17 +134,17 @@ namespace FundooNotes.Controller
                 if (result == true)
                 {
                     ////Creates a OkResult object that produces an empty Status200OK response.
-                    return this.Ok(new ResponseModel<string>() { status = true, message = "Reset password successfull" });
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Reset password successfull" });
                 }
                 else
                 {
                     ////Creates an BadRequestResult that produces a Status400BadRequest response.
-                    return this.BadRequest(new ResponseModel<string>() { status = false, message = "Reset password Unsuccessfull" });
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Reset password Unsuccessfull" });
                 }
             }
             catch (Exception ex)
             {
-                return this.NotFound(new ResponseModel<string>() { status = false, message = ex.Message });
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
     }

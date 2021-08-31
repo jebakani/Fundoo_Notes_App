@@ -2,7 +2,7 @@
 
 namespace Repository.Migrations
 {
-    public partial class Fundoo : Migration
+    public partial class fundoo : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,10 +12,10 @@ namespace Repository.Migrations
                 {
                     id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    firstName = table.Column<string>(nullable: false),
-                    lastName = table.Column<string>(nullable: false),
-                    email = table.Column<string>(nullable: false),
-                    password = table.Column<string>(nullable: false)
+                    FirstName = table.Column<string>(nullable: false),
+                    LastName = table.Column<string>(nullable: false),
+                    Email = table.Column<string>(nullable: false),
+                    Password = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
