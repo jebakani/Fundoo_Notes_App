@@ -44,13 +44,9 @@ namespace Manager.Manager
         {
             return this.repository.UnArchive(noteId, userId);
         }
-        public bool PinNotes(int noteId, int userId)
+        public string PinAndUnpinNotes(int noteId, int userId)
         {
-            return this.repository.PinNotes(noteId, userId);
-        }
-        public bool UnPinNotes(int noteId, int userId)
-        {
-            return this.repository.UnPinNotes(noteId, userId);
+            return this.repository.PinAndUnpinNotes(noteId, userId);
         }
         public NotesModel UpdateNote(NotesUpdateModel updateNote)
         {

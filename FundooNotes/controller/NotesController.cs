@@ -172,22 +172,22 @@ namespace FundooNotes.Controller
         }
 
         [HttpPut]
-        [Route("api/PinNotes")]
-        public IActionResult PinNotes(int noteId, int userId)
+        [Route("api/PinAndUnpinNotes")]
+        public IActionResult PinAndUnpinNotes(int noteId, int userId)
         {
             try
             {
-                bool result = this.manager.PinNotes(noteId, userId);
+                string result = this.manager.PinAndUnpinNotes(noteId, userId);
 
-                if (result)
+                if (!(result.Equals("Pinning Unsuccessfull")))
                 {
                     ////Creates a OkResult object that produces an empty Status200OK response.
-                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Notes is Pinned to top" });
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message =result});
                 }
                 else
                 {
                     ////Creates an BadRequestResult that produces a Status400BadRequest response.
-                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Can't pin the notes" });
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result});
                 }
             }
             catch (Exception ex)
@@ -195,31 +195,7 @@ namespace FundooNotes.Controller
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
-        [HttpPut]
-        [Route("api/UnPinNotes")]
-        public IActionResult UnPinNotes(int noteId, int userId)
-        {
-            try
-            {
-                bool result = this.manager.UnPinNotes(noteId, userId);
-
-                if (result)
-                {
-                    ////Creates a OkResult object that produces an empty Status200OK response.
-                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Notes is UnPinned to top" });
-                }
-                else
-                {
-                    ////Creates an BadRequestResult that produces a Status400BadRequest response.
-                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Can't Unpin the notes" });
-                }
-            }
-            catch (Exception ex)
-            {
-                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
-            }
-        }
-
+ 
         [HttpPut]
         [Route("api/UpdateNote")]
         public IActionResult UpdateNote([FromBody] NotesUpdateModel updateNote)

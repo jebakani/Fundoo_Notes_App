@@ -127,44 +127,36 @@ namespace Repository.Repository
                 throw new Exception(e.Message);
             }
         }
-        public bool PinNotes(int noteId, int userId)
+        public string PinAndUnpinNotes(int noteId, int userId)
         {
             try
             {
-                var notes = this.userContext.Notes.Where(note => note.UserId == userId && note.NotesId == noteId && note.Trash == false && note.Pin==false).FirstOrDefault();
+                string message;
+                var notes = this.userContext.Notes.Where(note => note.UserId == userId && note.NotesId == noteId && note.Trash == false).FirstOrDefault();
                 if (notes != null)
                 {
-                    notes.Pin = true;
+                    if (notes.Pin)
+                    {
+                        notes.Pin = false;
+                        message = "notes is Unpinned";
+                    }
+                    else
+                    {
+                        notes.Pin = true;
+                        message = "notes is pinned";
+                    }
                     this.userContext.Update(notes);
                     this.userContext.SaveChanges();
-                    return true;
+                    return message;
                 }
-                return false;
+                return "Pinning Unsuccessfull";
             }
             catch (Exception e)
             {
                 throw new Exception(e.Message);
             }
         }
-        public bool UnPinNotes(int noteId, int userId)
-        {
-            try
-            {
-                var notes = this.userContext.Notes.Where(note => note.UserId == userId && note.NotesId == noteId && note.Trash == false && note.Pin == true).FirstOrDefault();
-                if (notes != null)
-                {
-                    notes.Pin = false;
-                    this.userContext.Update(notes);
-                    this.userContext.SaveChanges();
-                    return true;
-                }
-                return false;
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
-        }
+
         public NotesModel UpdateNote(NotesUpdateModel updateNote)
         {
             try
