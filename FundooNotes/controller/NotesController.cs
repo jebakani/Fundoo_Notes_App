@@ -219,5 +219,30 @@ namespace FundooNotes.Controller
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+        [HttpPut]
+        [Route("api/UpdateNote")]
+        public IActionResult UpdateNote([FromBody] NotesUpdateModel updateNote)
+        {
+            try
+            {
+                NotesModel result = this.manager.UpdateNote(updateNote);
+
+                if (result!=null)
+                {
+                    ////Creates a OkResult object that produces an empty Status200OK response.
+                    return this.Ok(new { Status = true, Message = "Note is updated", Data=result });
+                }
+                else
+                {
+                    ////Creates an BadRequestResult that produces a Status400BadRequest response.
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Note does not exist or note not updated" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }

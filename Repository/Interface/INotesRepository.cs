@@ -17,6 +17,7 @@ namespace Repository.Interface
         bool UnArchive(int noteId, int userId);
         bool PinNotes(int noteId, int userId);
         bool UnPinNotes(int noteId, int userId);
+        NotesModel UpdateNote(NotesUpdateModel updateNote);
 
 
 

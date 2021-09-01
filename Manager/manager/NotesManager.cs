@@ -52,5 +52,9 @@ namespace Manager.Manager
         {
             return this.repository.UnPinNotes(noteId, userId);
         }
+        public NotesModel UpdateNote(NotesUpdateModel updateNote)
+        {
+            return this.repository.UpdateNote(updateNote);
+        }
     }
 }

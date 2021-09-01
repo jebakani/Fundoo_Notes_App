@@ -165,5 +165,25 @@ namespace Repository.Repository
                 throw new Exception(e.Message);
             }
         }
+        public NotesModel UpdateNote(NotesUpdateModel updateNote)
+        {
+            try
+            {
+                var notes = this.userContext.Notes.Where(note => note.UserId == updateNote.UserId && note.NotesId == updateNote.Notes && note.Trash == false).FirstOrDefault();
+                if (notes != null)
+                {
+                    notes.Description = updateNote.Description;
+                    notes.Title = updateNote.Title;
+                    this.userContext.Update(notes);
+                    this.userContext.SaveChanges();
+                    return notes;
+                }
+                return notes;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
     }
 }
