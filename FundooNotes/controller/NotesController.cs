@@ -98,6 +98,31 @@ namespace FundooNotes.Controller
             }
         }
         [HttpPut]
+        [Route("api/RestoreFromTrash")]
+        public IActionResult RestoreFromTrash(int noteId, int userId)
+        {
+            try
+            {
+                bool result = this.manager.RestoreFromTrash(noteId, userId);
+
+                if (result)
+                {
+                    ////Creates a OkResult object that produces an empty Status200OK response.
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Notes restore from trash" });
+                }
+                else
+                {
+                    ////Creates an BadRequestResult that produces a Status400BadRequest response.
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Can't able to restore" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
+        [HttpPut]
         [Route("api/MoveToArchieve")]
         public IActionResult MoveToArchieve(int noteId, int userId)
         {
@@ -132,12 +157,12 @@ namespace FundooNotes.Controller
                 if (result)
                 {
                     ////Creates a OkResult object that produces an empty Status200OK response.
-                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Notes moved to Archieve" });
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Notes is UnArchive" });
                 }
                 else
                 {
                     ////Creates an BadRequestResult that produces a Status400BadRequest response.
-                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Can't move to Archieve" });
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Can't move to UnArchieve" });
                 }
             }
             catch (Exception ex)

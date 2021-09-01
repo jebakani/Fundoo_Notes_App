@@ -15,5 +15,6 @@ namespace Manager.Interface
         bool MoveToTrash(int noteId, int userId);
         bool MoveToArchieve(int noteId, int userId);
         bool UnArchive(int noteId, int userId);
+        bool RestoreFromTrash(int noteId, int userId);
     }
 }
