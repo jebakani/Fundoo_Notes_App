@@ -60,11 +60,23 @@ namespace Manager.Manager
         /// <param name="emailId"> emailId of type string</param>
         /// <param name="password">password of type string</param>
         /// <returns>returns whether success or failed</returns>
-        public bool Login(string emailId, string password)
+        public RegisterModel Login(string emailId, string password)
         {
             try
             {
                 return this.repository.Login(emailId, password);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        public string GenerateToken(string email)
+        {
+            try
+            {
+                return this.repository.GenerateToken(email);
             }
             catch (Exception e)
             {

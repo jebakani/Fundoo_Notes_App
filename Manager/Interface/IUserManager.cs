@@ -33,7 +33,9 @@ namespace Manager.Interface
         /// <param name="emailId">email id of type string</param>
         /// <param name="password">password of type string</param>
         /// <returns>returns true or false</returns>
-        bool Login(string emailId, string password);
+        RegisterModel Login(string emailId, string password);
+
+        string GenerateToken(string email);
 
         /// <summary>
         /// Declaration of Register methods
@@ -42,6 +44,11 @@ namespace Manager.Interface
         /// <returns>returns true or false</returns>
         bool ForgetPassword(string emailId);
 
+        /// <summary>
+        /// Reset password method
+        /// </summary>
+        /// <param name="resetPassword">email id and password</param>
+        /// <returns>the result in boolean</returns>
         bool ResetPassword(ResetPasswordModel resetPassword);
     }
 }

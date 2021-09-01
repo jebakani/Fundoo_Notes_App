@@ -28,6 +28,10 @@ namespace Model
         [RegularExpression(@"^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?!.*[<>`])(?=[^.,:;'!@#$%^&*_+=|(){}[?\-\]\/\\]*[.,:;'!@#$%^&*_+=|(){}[?\-\]\/\\][^.,:;'!@#$%^&*_+=|(){}[?\-\]\/\\]*$).{8,}$", ErrorMessage = "Invalid Password")]
         public string Password { get; set; }
 
+        public string toString()
+        {
+            return "UserName:" + this.FirstName + " " + this.LastName + " EmailId:" + this.Email;
+        }
 
     }
 }

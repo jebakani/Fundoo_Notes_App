@@ -17,6 +17,10 @@ namespace FundooNotes1.Repository
     using Models;
     using global::Repository.Context;
     using global::Repository.Inteface;
+    using Microsoft.IdentityModel.Tokens;
+    using System.Security.Claims;
+    using System.IdentityModel.Tokens.Jwt;
+    using Microsoft.Extensions.Configuration;
 
     /// <summary>
     /// User repository class that execute the query and connect with database
@@ -27,15 +31,17 @@ namespace FundooNotes1.Repository
         /// create the object for user context
         /// </summary>
         private readonly UserContext userContext;
+        public IConfiguration Configuration { get; }
 
         /// <summary>
         /// getting user context object through constructor
         /// Initializes a new instance of the <see cref="UserRepository"/> class
         /// </summary>
         /// <param name="userContext">user context object that has connection with database Context</param>
-        public UserRepository(UserContext userContext)
+        public UserRepository(UserContext userContext, IConfiguration configuration)
         {
             this.userContext = userContext;
+            this.Configuration = configuration;
         }
 
         /// <summary>
@@ -83,13 +89,31 @@ namespace FundooNotes1.Repository
             return encodedPassword;
         }
 
+        public string GenerateToken(string email)
+        {
+            byte[] key = Convert.FromBase64String(this.Configuration["SecretKey"]);
+            SymmetricSecurityKey securityKey = new SymmetricSecurityKey(key);
+            SecurityTokenDescriptor descriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[] {
+                      new Claim(ClaimTypes.Name, email)}),
+                Expires = DateTime.UtcNow.AddMinutes(30),
+                SigningCredentials = new SigningCredentials(securityKey,
+                SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
+            JwtSecurityToken token = handler.CreateJwtSecurityToken(descriptor);
+            return handler.WriteToken(token);
+        }
+
         /// <summary>
         /// method to check login details
         /// </summary>
         /// <param name="emailId">email id of user in string</param>
         /// <param name="password">password of user in string</param>
         /// <returns>Login success or not</returns>
-        public bool Login(string emailId, string password)
+        public RegisterModel Login(string emailId, string password)
         {
             try
             {
@@ -99,11 +123,11 @@ namespace FundooNotes1.Repository
                 ////if the value not equal to null then return true
                 if (login != null)
                 {
-                    return true;
+                    return login;
                 }
                 else
                 {
-                    return false;
+                    return login;
                 }
             }
             catch (Exception e)

@@ -71,17 +71,18 @@ namespace FundooNotes.Controller
         /// </summary>
         /// <param name="loginData">Login data contains emailId and password</param>
         /// <returns>result of the action</returns>
-        [HttpGet]
+        [HttpPost]
         [Route("api/login")]
         public IActionResult Login([FromBody]LoginModel loginData)
         {
             try
             {
-                bool result = this.manager.Login(loginData.EmailId, loginData.Password);
-                if (result == true)
+                var result =this.manager.Login(loginData.EmailId, loginData.Password);
+                string resultMassage = this.manager.GenerateToken(loginData.EmailId);
+                if (result != null)
                 {
                     ////Creates a OkResult object that produces an empty Status200OK response.
-                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Login Successful" });
+                    return this.Ok(new  { Status = true, Message = "Login Successful", data = result.toString(),resultMassage});
                 }
                 else
                 {
@@ -100,7 +101,7 @@ namespace FundooNotes.Controller
         /// </summary>
         /// <param name="email">gives the user email id</param>
         /// <returns>returns the result whether the action is success or fail</returns>
-        [HttpGet]
+        [HttpPost]
         [Route("api/forgetPassword")]
         public IActionResult ForgetPassword(string email)
         {

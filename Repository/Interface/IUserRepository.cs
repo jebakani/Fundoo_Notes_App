@@ -32,7 +32,9 @@ namespace Repository.Inteface
         /// <param name="emailId">email id as string</param>
         /// <param name="password">password as string</param>
         /// <returns>return true or false</returns>
-        bool Login(string emailId, string password);
+        RegisterModel Login(string emailId, string password);
+
+        string GenerateToken(string email);
 
         /// <summary>
         /// method to Register the user
