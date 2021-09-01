@@ -48,5 +48,9 @@ namespace Manager.Manager
         {
             return this.repository.PinNotes(noteId, userId);
         }
+        public bool UnPinNotes(int noteId, int userId)
+        {
+            return this.repository.UnPinNotes(noteId, userId);
+        }
     }
 }
