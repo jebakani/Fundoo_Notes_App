@@ -13,5 +13,7 @@ namespace Repository.Interface
         List<NotesModel> GetNotes(int id);
         bool MoveToTrash(int noteId, int userId);
         bool MoveToArchieve(int noteId, int userId);
+        bool UnArchive(int noteId, int userId);
+
     }
 }
