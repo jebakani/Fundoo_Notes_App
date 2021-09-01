@@ -11,6 +11,6 @@ namespace Repository.Interface
     {
         string AddNotes(NotesModel notes);
         List<NotesModel> GetNotes(int id);
-        bool DeleteNote(int noteId, int userId);
+        bool MoveToTrash(int noteId, int userId);
     }
 }

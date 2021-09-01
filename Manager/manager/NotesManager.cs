@@ -28,9 +28,9 @@ namespace Manager.Manager
             return this.repository.GetNotes(id);
         }
 
-        public bool DeleteNote(int noteId, int userId)
+        public bool MoveToTrash(int noteId, int userId)
         {
-            return this.repository.DeleteNote(noteId, userId);
+            return this.repository.MoveToTrash(noteId, userId);
         }
     }
 }

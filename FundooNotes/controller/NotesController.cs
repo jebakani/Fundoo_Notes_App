@@ -74,12 +74,12 @@ namespace FundooNotes.Controller
         /// <param name="userId">user id that is foreign key</param>
         /// <returns>returns the action </returns>
         [HttpPut]
-        [Route("api/deleteNote")]
-        public IActionResult DeleteNode(int noteId,int userId)
+        [Route("api/MoveToTrash")]
+        public IActionResult MoveToTrash(int noteId,int userId)
         {
             try
             {
-                bool result = this.manager.DeleteNote( noteId, userId);
+                bool result = this.manager.MoveToTrash( noteId, userId);
 
                 if (result)
                 {
