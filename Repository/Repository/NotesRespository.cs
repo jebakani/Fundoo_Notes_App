@@ -127,5 +127,24 @@ namespace Repository.Repository
                 throw new Exception(e.Message);
             }
         }
+        public bool PinNotes(int noteId, int userId)
+        {
+            try
+            {
+                var notes = this.userContext.Notes.Where(note => note.UserId == userId && note.NotesId == noteId && note.Trash == false && note.Pin==false).FirstOrDefault();
+                if (notes != null)
+                {
+                    notes.Pin = true;
+                    this.userContext.Update(notes);
+                    this.userContext.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
     }
 }
