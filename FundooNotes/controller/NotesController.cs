@@ -170,7 +170,6 @@ namespace FundooNotes.Controller
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
-
         [HttpPut]
         [Route("api/PinAndUnpinNotes")]
         public IActionResult PinAndUnpinNotes(int noteId, int userId)
@@ -195,7 +194,31 @@ namespace FundooNotes.Controller
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
- 
+        [HttpPut]
+        [Route("api/UpdateColor")]
+        public IActionResult UpdateColor(int noteId, int userId,string color)
+        {
+            try
+            {
+                bool result = this.manager.UpdateColor(noteId, userId, color);
+
+                if (result)
+                {
+                    ////Creates a OkResult object that produces an empty Status200OK response.
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Color is updated" });
+                }
+                else
+                {
+                    ////Creates an BadRequestResult that produces a Status400BadRequest response.
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Color is not updated" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
         [HttpPut]
         [Route("api/UpdateNote")]
         public IActionResult UpdateNote([FromBody] NotesUpdateModel updateNote)
