@@ -10,5 +10,6 @@ namespace Repository.Interface
     public interface INotesRepository
     {
         string AddNotes(NotesModel notes);
+        List<NotesModel> GetNotes(int id);
     }
 }

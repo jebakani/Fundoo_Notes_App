@@ -22,5 +22,10 @@ namespace Manager.Manager
         {
             return this.repository.AddNotes(notes);
         }
+
+        public List<NotesModel> GetNotes(int id)
+        {
+            return this.repository.GetNotes(id);
+        }
     }
 }

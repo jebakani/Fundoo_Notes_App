@@ -36,5 +36,20 @@ namespace Repository.Repository
                 throw new Exception(e.Message);
             }
         }
+
+        public List<NotesModel> GetNotes(int id)
+        {
+            try
+            {
+                //checking the result using linq query user id has the notes 
+                //if user id has n number of notes then push 
+                var notes = this.userContext.Notes.Where(note => note.UserId == id).ToList();
+                return notes;
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
     }
 }
