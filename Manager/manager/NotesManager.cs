@@ -27,5 +27,10 @@ namespace Manager.Manager
         {
             return this.repository.GetNotes(id);
         }
+
+        public bool DeleteNote(int noteId, int userId)
+        {
+            return this.repository.DeleteNote(noteId, userId);
+        }
     }
 }

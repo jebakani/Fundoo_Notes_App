@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Repository.Repository
 {
-    public class NotesRespository:INotesRepository
+    public class NotesRespository : INotesRepository
     {
         private readonly UserContext userContext;
         public NotesRespository(UserContext userContext)
@@ -31,7 +31,7 @@ namespace Repository.Repository
 
                 return "Notes didn't get added";
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 throw new Exception(e.Message);
             }
@@ -43,13 +43,33 @@ namespace Repository.Repository
             {
                 //checking the result using linq query user id has the notes 
                 //if user id has n number of notes then push 
-                var notes = this.userContext.Notes.Where(note => note.UserId == id).ToList();
+                var notes = this.userContext.Notes.Where(note => note.UserId == id && note.Trash == false && note.Archieve==false).ToList();
                 return notes;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 throw new Exception(e.Message);
             }
         }
+        public bool MoveToTrash(int noteId, int userId)
+        {
+            try
+            {
+                var notes = this.userContext.Notes.Where(note => note.UserId == userId && note.NotesId == noteId).FirstOrDefault();
+                if (notes != null)
+                {
+                    notes.Trash = true;
+                    this.userContext.Update(notes);
+                    this.userContext.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
     }
 }

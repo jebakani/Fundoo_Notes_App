@@ -66,5 +66,37 @@ namespace FundooNotes.Controller
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+        /// <summary>
+        /// Api to delete the note and move to trash
+        /// </summary>
+        /// <param name="noteId">note id which is unique</param>
+        /// <param name="userId">user id that is foreign key</param>
+        /// <returns>returns the action </returns>
+        [HttpPut]
+        [Route("api/deleteNote")]
+        public IActionResult DeleteNode(int noteId,int userId)
+        {
+            try
+            {
+                bool result = this.manager.DeleteNote( noteId, userId);
+
+                if (result)
+                {
+                    ////Creates a OkResult object that produces an empty Status200OK response.
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Notes moved to thrash" });
+                }
+                else
+                {
+                    ////Creates an BadRequestResult that produces a Status400BadRequest response.
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Can't able to delete" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
     }
 }
