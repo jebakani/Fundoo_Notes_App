@@ -18,5 +18,8 @@ namespace Repository.Interface
         string PinAndUnpinNotes(int noteId, int userId);
         NotesModel UpdateNote(NotesUpdateModel updateNote);
         bool DeleteFromTrash(int noteId, int userId);
+        bool UpdateColor(int noteId, int userId, string color);
+        bool UpdateRemainder(int noteId, int userId, string remainder);
+
     }
 }

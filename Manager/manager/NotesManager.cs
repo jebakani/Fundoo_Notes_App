@@ -56,6 +56,14 @@ namespace Manager.Manager
         {
             return this.repository.DeleteFromTrash(noteId, userId);
         }
-       
+        public bool UpdateColor(int noteId, int userId, string color)
+        {
+            return this.repository.UpdateColor(noteId, userId, color);
+        }
+        public bool UpdateRemainder(int noteId, int userId, string remainder)
+        {
+            return this.repository.UpdateRemainder(noteId, userId, remainder);
+        }
+
     }
 }

@@ -218,6 +218,30 @@ namespace FundooNotes.Controller
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+        [HttpPut]
+        [Route("api/UpdateRemainder")]
+        public IActionResult UpdateRemainder(int noteId, int userId, string remainder)
+        {
+            try
+            {
+                bool result = this.manager.UpdateRemainder(noteId, userId, remainder);
+
+                if (result)
+                {
+                    ////Creates a OkResult object that produces an empty Status200OK response.
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "remainder is updated" });
+                }
+                else
+                {
+                    ////Creates an BadRequestResult that produces a Status400BadRequest response.
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "remainder is not updated" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
 
         [HttpPut]
         [Route("api/UpdateNote")]

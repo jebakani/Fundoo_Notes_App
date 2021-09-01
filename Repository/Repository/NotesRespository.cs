@@ -199,7 +199,7 @@ namespace Repository.Repository
         {
             try
             {
-                var note= this.userContext.Notes.Where(note => note.UserId == userId && note.NotesId == noteId && note.Trash == true).FirstOrDefault();
+                var note= this.userContext.Notes.Where(note => note.UserId == userId && note.NotesId == noteId && note.Trash == false).FirstOrDefault();
                 if(note!=null)
                 {
                     note.Color = color;
@@ -210,6 +210,25 @@ namespace Repository.Repository
                 return false;
             }
             catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+        public bool UpdateRemainder(int noteId, int userId, string remainder)
+        {
+            try
+            {
+                var note = this.userContext.Notes.Where(note => note.UserId == userId && note.NotesId == noteId && note.Trash == false).FirstOrDefault();
+                if (note != null)
+                {
+                    note.Remainder = remainder;
+                    this.userContext.Update(note);
+                    this.userContext.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception e)
             {
                 throw new Exception(e.Message);
             }
