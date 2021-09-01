@@ -32,5 +32,9 @@ namespace Manager.Manager
         {
             return this.repository.MoveToTrash(noteId, userId);
         }
+        public bool MoveToArchieve(int noteId, int userId)
+        {
+            return this.repository.MoveToArchieve(noteId, userId);
+        }
     }
 }

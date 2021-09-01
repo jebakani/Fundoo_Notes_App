@@ -70,6 +70,24 @@ namespace Repository.Repository
                 throw new Exception(e.Message);
             }
         }
-
+        public bool MoveToArchieve(int noteId, int userId)
+        {
+            try
+            {
+                var notes = this.userContext.Notes.Where(note => note.UserId == userId && note.NotesId == noteId && note.Trash==false).FirstOrDefault();
+                if (notes != null)
+                {
+                    notes.Archieve = true;
+                    this.userContext.Update(notes);
+                    this.userContext.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
     }
 }
