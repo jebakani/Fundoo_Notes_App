@@ -89,7 +89,7 @@ namespace Manager.Manager
         /// </summary>
         /// <param name="userData">user data contains the user details</param>
         /// <returns>return true or false </returns>
-        public bool Register(RegisterModel userData)
+        public string Register(RegisterModel userData)
         {
             try
             {

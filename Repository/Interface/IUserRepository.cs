@@ -24,7 +24,7 @@ namespace Repository.Inteface
         /// </summary>
         /// <param name="userData">user details</param>
         /// <returns>return true or false</returns>
-        bool Register(RegisterModel userData);
+        string Register(RegisterModel userData);
 
         /// <summary>
         /// method to Register the user

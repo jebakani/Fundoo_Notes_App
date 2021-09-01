@@ -25,7 +25,7 @@ namespace Manager.Interface
         /// </summary>
         /// <param name="userData"> User details</param>
         /// <returns>returns true or false</returns>
-        bool Register(RegisterModel userData);
+        string Register(RegisterModel userData);
 
         /// <summary>
         /// Declaration of Login methods

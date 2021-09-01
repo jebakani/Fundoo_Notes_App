@@ -47,17 +47,17 @@ namespace FundooNotes.Controller
         {
             try
             {
-                bool result = this.manager.Register(userData);
+                string result = this.manager.Register(userData);
 
-                if (result == true)
+                if (result.Equals("Registration Successful"))
                 {
                     ////Creates a OkResult object that produces an empty Status200OK response.
-                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Registration Successful" });
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result});
                 }
                 else
                 {
                     ////Creates an BadRequestResult that produces a Status400BadRequest response.
-                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Registration UnSuccessful" });
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
                 }
             }
             catch (Exception ex)

@@ -26,6 +26,8 @@ namespace FundooNotes
     using Microsoft.OpenApi.Models;
     using Repository.Context;
     using Repository.Inteface;
+    using Repository.Interface;
+    using Repository.Repository;
 
     /// <summary>
     /// Startup class
@@ -57,6 +59,8 @@ namespace FundooNotes
             services.AddDbContextPool<UserContext>(option => option.UseSqlServer(this.Configuration.GetConnectionString("UserDbConnection")));
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IUserManager, UserManager>();
+            services.AddTransient<INotesRepository, NotesRespository>();
+            services.AddTransient<INotesManager, NotesManager>();
         }
 
         /// <summary>

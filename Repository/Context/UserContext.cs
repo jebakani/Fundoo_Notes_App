@@ -13,6 +13,7 @@ namespace Repository.Context
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
     using Model;
+    using Models;
 
     /// <summary>
     /// User context class that extends the Database Context
@@ -32,5 +33,6 @@ namespace Repository.Context
         /// Gets or sets the user table 
         /// </summary>
         public DbSet<RegisterModel> user { get; set; }
+        public DbSet<NotesModel> Notes { get; set; }
     }
 }

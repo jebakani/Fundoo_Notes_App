@@ -49,22 +49,27 @@ namespace FundooNotes1.Repository
         /// </summary>
         /// <param name="userData">User data is passed as parameter</param>
         /// <returns>whether the data send or not</returns>
-        public bool Register(RegisterModel userData)
+        public string Register(RegisterModel userData)
         {
             try
             {
-                if (userData != null)
+                var validEmail = this.userContext.user.Where(x => x.Email == userData.Email).FirstOrDefault();
+                if (validEmail == null)
                 {
-                    //// encrypting the password
-                    userData.Password = this.EncryptPassword(userData.Password);
-                    //// add the data to the data base using user context 
-                    this.userContext.Add(userData);
-                    //// save the change in data base
-                    this.userContext.SaveChanges();
-                    return true;
-                }
+                    if (userData != null)
+                    {
+                        //// encrypting the password
+                        userData.Password = this.EncryptPassword(userData.Password);
+                        //// add the data to the data base using user context 
+                        this.userContext.Add(userData);
+                        //// save the change in data base
+                        this.userContext.SaveChanges();
+                        return "Registration Successful";
+                    }
 
-                return false;
+                    return "Registration UnSuccessful";
+                }
+                return "Email Id Already Exists";
             }
             catch (ArgumentNullException ex)
             {
@@ -149,7 +154,7 @@ namespace FundooNotes1.Repository
                if (validEmail != null)
                {
                     this.MSMQSend("Link for resetting the password");
-                    return this.ReceiveQueue(email);
+                    return this.SendEmail(email);
                }
                else
                {
@@ -161,7 +166,17 @@ namespace FundooNotes1.Repository
                 throw new Exception(e.Message);
             }
         }
-        
+        private bool SendEmail(string email)
+        {
+            string linkToBeSend = this.ReceiveQueue(email);
+            if (this.SendMailUsingSMTP(email, linkToBeSend))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// method to reset the password
         /// </summary>
@@ -220,12 +235,19 @@ namespace FundooNotes1.Repository
         /// <param name="url">url link that has to be send</param>
         private void MSMQSend(string url)
         {
-            MessageQueue messageQueue = this.QueueDetail();
-            Message message = new Message();
-            message.Formatter = new BinaryMessageFormatter();
-            message.Body = url;
-            messageQueue.Label = "url link";
-            messageQueue.Send(message);
+            try
+            {
+                MessageQueue messageQueue = this.QueueDetail();
+                Message message = new Message();
+                message.Formatter = new BinaryMessageFormatter();
+                message.Body = url;
+                messageQueue.Label = "url link";
+                messageQueue.Send(message);
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
         
         /// <summary>
@@ -233,7 +255,9 @@ namespace FundooNotes1.Repository
         /// </summary>
         /// <param name="email">email id of user to send mail</param>
         /// <returns>returns whether the mail is send or not</returns>
-        private bool ReceiveQueue(string email)
+        /// 
+        
+        private string ReceiveQueue(string email)
         {
             ////for reading from MSMQ
             var receiveQueue = new MessageQueue(@".\Private$\ResetPasswordQueue");
@@ -241,12 +265,7 @@ namespace FundooNotes1.Repository
             receiveMsg.Formatter = new BinaryMessageFormatter();
 
             string linkToBeSend = receiveMsg.Body.ToString();
-            if (this.SendMail(email, linkToBeSend))
-            {
-                return true;
-            }
-
-            return false;
+            return linkToBeSend;
         }
 
         /// <summary>
@@ -255,7 +274,7 @@ namespace FundooNotes1.Repository
         /// <param name="email">email as string</param>
         /// <param name="message">message can be string or url or combination of both</param>
         /// <returns>returns the result to receive queue method</returns>
-        private bool SendMail(string email, string message)
+        private bool SendMailUsingSMTP(string email, string message)
         {
             MailMessage mailMessage = new MailMessage();
             SmtpClient smtp = new SmtpClient();
