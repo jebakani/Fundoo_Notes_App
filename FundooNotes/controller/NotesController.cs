@@ -220,5 +220,29 @@ namespace FundooNotes.Controller
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+        [HttpDelete]
+        [Route("api/DeleteFromTrash")]
+        public IActionResult DeleteFromTrash(int noteId,int userId)
+        {
+            try
+            {
+                bool result = this.manager.DeleteFromTrash(noteId,userId);
+
+                if (result)
+                {
+                    ////Creates a OkResult object that produces an empty Status200OK response.
+                    return this.Ok(new ResponseModel<string> { Status = true, Message = "Note is deleted" });
+                }
+                else
+                {
+                    ////Creates an BadRequestResult that produces a Status400BadRequest response.
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Notes is not deleted" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }

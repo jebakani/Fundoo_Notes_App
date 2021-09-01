@@ -177,5 +177,23 @@ namespace Repository.Repository
                 throw new Exception(e.Message);
             }
         }
+        public bool DeleteFromTrash(int noteId, int userId)
+        {
+            try
+            {
+                var notes = this.userContext.Notes.Where(note => note.UserId == userId && note.NotesId == noteId && note.Trash == true).FirstOrDefault();
+                if (notes != null)
+                {
+                    this.userContext.Notes.Remove(notes);
+                    this.userContext.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
     }
 }

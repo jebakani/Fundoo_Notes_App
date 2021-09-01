@@ -52,5 +52,10 @@ namespace Manager.Manager
         {
             return this.repository.UpdateNote(updateNote);
         }
+       public bool DeleteFromTrash(int noteId, int userId)
+        {
+            return this.repository.DeleteFromTrash(noteId, userId);
+        }
+       
     }
 }

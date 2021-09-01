@@ -17,8 +17,6 @@ namespace Repository.Interface
         bool UnArchive(int noteId, int userId);
         string PinAndUnpinNotes(int noteId, int userId);
         NotesModel UpdateNote(NotesUpdateModel updateNote);
-
-
-
+        bool DeleteFromTrash(int noteId, int userId);
     }
 }
