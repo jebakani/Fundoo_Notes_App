@@ -14,6 +14,8 @@ namespace Manager.Interface
         List<NotesModel> GetNotes(int userId);
         List<NotesModel> GetArchive(int userId);
         List<NotesModel> GetRemainder(int userId);
+        List<NotesModel> GetTrash(int userId);
+
 
         bool MoveToTrash(int noteId);
         bool MoveToArchieve(int noteId);

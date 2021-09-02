@@ -35,6 +35,10 @@ namespace Manager.Manager
         {
             return this.repository.GetRemainder(userId);
         }
+        public List<NotesModel> GetTrash(int userId)
+        {
+            return this.repository.GetTrash(userId);
+        }
         public bool MoveToTrash(int noteId)
         {
             return this.repository.MoveToTrash(noteId);

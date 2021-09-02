@@ -80,6 +80,20 @@ namespace Repository.Repository
                 throw new Exception(e.Message);
             }
         }
+        public List<NotesModel> GetTrash(int userId)
+        {
+            try
+            {
+                //checking the result using linq query user id has the notes 
+                //if user id has n number of notes then push 
+                var notes = this.userContext.Notes.Where(note => note.UserId == userId && note.Trash == true).ToList();
+                return notes;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
         public bool MoveToTrash(int noteId)
         {
             try
