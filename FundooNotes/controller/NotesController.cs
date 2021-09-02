@@ -68,6 +68,32 @@ namespace FundooNotes.Controller
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+        [HttpGet]
+        [Route("api/GetArchive")]
+        public IActionResult GetArchive(int id)
+        {
+            try
+            {
+                //getting the result as the list of Notes model
+                List<NotesModel> result = this.manager.GetArchive(id);
+
+                if (result.Count != 0)
+                {
+                    ////Creates a OkResult object that produces an empty Status200OK response.
+                    return this.Ok(new { Status = true, Message = "Data is available", Data = result });
+                }
+                else
+                {
+                    ////Creates an BadRequestResult that produces a Status400BadRequest response.
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Data is not available" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
 
         /// <summary>
         /// Api to delete the note and move to trash

@@ -27,7 +27,10 @@ namespace Manager.Manager
         {
             return this.repository.GetNotes(id);
         }
-
+        public List<NotesModel> GetArchive(int id)
+        {
+            return this.repository.GetArchive(id);
+        }
         public bool MoveToTrash(int noteId)
         {
             return this.repository.MoveToTrash(noteId);
