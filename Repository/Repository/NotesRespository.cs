@@ -20,7 +20,8 @@ namespace Repository.Repository
         {
             try
             {
-                if (notes != null)
+                //changes
+                if (notes != null && (notes.Description != null || notes.Title != null || notes.Image != null || notes.Remainder != null))
                 {
                     //// add the data to the data base using user context 
                     this.userContext.Add(notes);
@@ -51,11 +52,11 @@ namespace Repository.Repository
                 throw new Exception(e.Message);
             }
         }
-        public bool MoveToTrash(int noteId, int userId)
+        public bool MoveToTrash(int noteId)
         {
             try
             {
-                var notes = this.userContext.Notes.Where(note => note.UserId == userId && note.NotesId == noteId).FirstOrDefault();
+                var notes = this.userContext.Notes.Where(note => note.NotesId == noteId).FirstOrDefault();
                 if (notes != null)
                 {
                     notes.Trash = true;
@@ -70,11 +71,11 @@ namespace Repository.Repository
                 throw new Exception(e.Message);
             }
         }
-        public bool RestoreFromTrash(int noteId, int userId)
+        public bool RestoreFromTrash(int noteId)
         {
             try
             {
-                var notes = this.userContext.Notes.Where(note => note.UserId == userId && note.NotesId == noteId && note.Trash==true).FirstOrDefault();
+                var notes = this.userContext.Notes.Where(note => note.NotesId == noteId && note.Trash==true).FirstOrDefault();
                 if (notes != null)
                 {
                     notes.Trash = false;
@@ -89,11 +90,11 @@ namespace Repository.Repository
                 throw new Exception(e.Message);
             }
         }
-        public bool MoveToArchieve(int noteId, int userId)
+        public bool MoveToArchieve(int noteId)
         {
             try
             {
-                var notes = this.userContext.Notes.Where(note => note.UserId == userId && note.NotesId == noteId && note.Trash==false).FirstOrDefault();
+                var notes = this.userContext.Notes.Where(note =>  note.NotesId == noteId && note.Trash==false).FirstOrDefault();
                 if (notes != null)
                 {
                     notes.Archieve = true;
@@ -108,11 +109,11 @@ namespace Repository.Repository
                 throw new Exception(e.Message);
             }
         }
-        public bool UnArchive(int noteId, int userId)
+        public bool UnArchive(int noteId)
         {
             try
             {
-                var notes = this.userContext.Notes.Where(note => note.UserId == userId && note.NotesId == noteId && note.Trash == false).FirstOrDefault();
+                var notes = this.userContext.Notes.Where(note =>  note.NotesId == noteId && note.Trash == false).FirstOrDefault();
                 if (notes != null)
                 {
                     notes.Archieve = false;
@@ -127,12 +128,12 @@ namespace Repository.Repository
                 throw new Exception(e.Message);
             }
         }
-        public string PinAndUnpinNotes(int noteId, int userId)
+        public string PinAndUnpinNotes(int noteId)
         {
             try
             {
                 string message;
-                var notes = this.userContext.Notes.Where(note => note.UserId == userId && note.NotesId == noteId && note.Trash == false).FirstOrDefault();
+                var notes = this.userContext.Notes.Where(note => note.NotesId == noteId && note.Trash == false).FirstOrDefault();
                 if (notes != null)
                 {
                     if (notes.Pin)
@@ -161,7 +162,7 @@ namespace Repository.Repository
         {
             try
             {
-                var notes = this.userContext.Notes.Where(note => note.UserId == updateNote.UserId && note.NotesId == updateNote.Notes && note.Trash == false).FirstOrDefault();
+                var notes = this.userContext.Notes.Where(note => note.NotesId == updateNote.Notes && note.Trash == false).FirstOrDefault();
                 if (notes != null)
                 {
                     notes.Description = updateNote.Description;
@@ -177,11 +178,11 @@ namespace Repository.Repository
                 throw new Exception(e.Message);
             }
         }
-        public bool DeleteFromTrash(int noteId, int userId)
+        public bool DeleteFromTrash(int noteId)
         {
             try
             {
-                var notes = this.userContext.Notes.Where(note => note.UserId == userId && note.NotesId == noteId && note.Trash == true).FirstOrDefault();
+                var notes = this.userContext.Notes.Where(note =>  note.NotesId == noteId && note.Trash == true).FirstOrDefault();
                 if (notes != null)
                 {
                     this.userContext.Notes.Remove(notes);
@@ -195,11 +196,11 @@ namespace Repository.Repository
                 throw new Exception(e.Message);
             }
         }
-        public bool UpdateColor(int noteId, int userId, string color)
+        public bool UpdateColor(int noteId,  string color)
         {
             try
             {
-                var note= this.userContext.Notes.Where(note => note.UserId == userId && note.NotesId == noteId && note.Trash == false).FirstOrDefault();
+                var note= this.userContext.Notes.Where(note =>note.NotesId == noteId && note.Trash == false).FirstOrDefault();
                 if(note!=null)
                 {
                     note.Color = color;
@@ -214,11 +215,11 @@ namespace Repository.Repository
                 throw new Exception(e.Message);
             }
         }
-        public bool UpdateRemainder(int noteId, int userId, string remainder)
+        public bool UpdateRemainder(int noteId, string remainder)
         {
             try
             {
-                var note = this.userContext.Notes.Where(note => note.UserId == userId && note.NotesId == noteId && note.Trash == false).FirstOrDefault();
+                var note = this.userContext.Notes.Where(note =>  note.NotesId == noteId && note.Trash == false).FirstOrDefault();
                 if (note != null)
                 {
                     note.Remainder = remainder;

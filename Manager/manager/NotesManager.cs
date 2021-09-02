@@ -28,41 +28,41 @@ namespace Manager.Manager
             return this.repository.GetNotes(id);
         }
 
-        public bool MoveToTrash(int noteId, int userId)
+        public bool MoveToTrash(int noteId)
         {
-            return this.repository.MoveToTrash(noteId, userId);
+            return this.repository.MoveToTrash(noteId);
         }
-        public bool RestoreFromTrash(int noteId, int userId)
+        public bool RestoreFromTrash(int noteId)
         {
-            return this.repository.RestoreFromTrash(noteId, userId);
+            return this.repository.RestoreFromTrash(noteId);
         }
-        public bool MoveToArchieve(int noteId, int userId)
+        public bool MoveToArchieve(int noteId)
         {
-            return this.repository.MoveToArchieve(noteId, userId);
+            return this.repository.MoveToArchieve(noteId);
         }
-        public bool UnArchive(int noteId, int userId)
+        public bool UnArchive(int noteId)
         {
-            return this.repository.UnArchive(noteId, userId);
+            return this.repository.UnArchive(noteId);
         }
-        public string PinAndUnpinNotes(int noteId, int userId)
+        public string PinAndUnpinNotes(int noteId)
         {
-            return this.repository.PinAndUnpinNotes(noteId, userId);
+            return this.repository.PinAndUnpinNotes(noteId);
         }
         public NotesModel UpdateNote(NotesUpdateModel updateNote)
         {
             return this.repository.UpdateNote(updateNote);
         }
-       public bool DeleteFromTrash(int noteId, int userId)
+       public bool DeleteFromTrash(int noteId)
         {
-            return this.repository.DeleteFromTrash(noteId, userId);
+            return this.repository.DeleteFromTrash(noteId);
         }
-        public bool UpdateColor(int noteId, int userId, string color)
+        public bool UpdateColor(int noteId, string color)
         {
-            return this.repository.UpdateColor(noteId, userId, color);
+            return this.repository.UpdateColor(noteId, color);
         }
-        public bool UpdateRemainder(int noteId, int userId, string remainder)
+        public bool UpdateRemainder(int noteId, string remainder)
         {
-            return this.repository.UpdateRemainder(noteId, userId, remainder);
+            return this.repository.UpdateRemainder(noteId, remainder);
         }
 
     }

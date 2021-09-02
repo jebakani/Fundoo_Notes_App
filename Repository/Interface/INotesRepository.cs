@@ -11,15 +11,15 @@ namespace Repository.Interface
     {
         string AddNotes(NotesModel notes);
         List<NotesModel> GetNotes(int id);
-        bool MoveToTrash(int noteId, int userId);
-        bool RestoreFromTrash(int noteId, int userId);
-        bool MoveToArchieve(int noteId, int userId);
-        bool UnArchive(int noteId, int userId);
-        string PinAndUnpinNotes(int noteId, int userId);
+        bool MoveToTrash(int noteId);
+        bool RestoreFromTrash(int noteId);
+        bool MoveToArchieve(int noteId);
+        bool UnArchive(int noteId);
+        string PinAndUnpinNotes(int noteId);
         NotesModel UpdateNote(NotesUpdateModel updateNote);
-        bool DeleteFromTrash(int noteId, int userId);
-        bool UpdateColor(int noteId, int userId, string color);
-        bool UpdateRemainder(int noteId, int userId, string remainder);
+        bool DeleteFromTrash(int noteId);
+        bool UpdateColor(int noteId, string color);
+        bool UpdateRemainder(int noteId, string remainder);
 
     }
 }

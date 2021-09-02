@@ -1,4 +1,5 @@
 ﻿using Manager.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using System;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace FundooNotes.Controller
 {
+   
     public class NotesController : ControllerBase
     {
         private readonly INotesManager manager;
@@ -75,11 +77,11 @@ namespace FundooNotes.Controller
         /// <returns>returns the action </returns>
         [HttpPut]
         [Route("api/MoveToTrash")]
-        public IActionResult MoveToTrash(int noteId,int userId)
+        public IActionResult MoveToTrash(int noteId)
         {
             try
             {
-                bool result = this.manager.MoveToTrash( noteId, userId);
+                bool result = this.manager.MoveToTrash( noteId);
 
                 if (result)
                 {
@@ -99,11 +101,11 @@ namespace FundooNotes.Controller
         }
         [HttpPut]
         [Route("api/RestoreFromTrash")]
-        public IActionResult RestoreFromTrash(int noteId, int userId)
+        public IActionResult RestoreFromTrash(int noteId)
         {
             try
             {
-                bool result = this.manager.RestoreFromTrash(noteId, userId);
+                bool result = this.manager.RestoreFromTrash(noteId );
 
                 if (result)
                 {
@@ -124,11 +126,11 @@ namespace FundooNotes.Controller
 
         [HttpPut]
         [Route("api/MoveToArchieve")]
-        public IActionResult MoveToArchieve(int noteId, int userId)
+        public IActionResult MoveToArchieve(int noteId)
         {
             try
             {
-                bool result = this.manager.MoveToArchieve(noteId, userId);
+                bool result = this.manager.MoveToArchieve(noteId);
 
                 if (result)
                 {
@@ -148,11 +150,11 @@ namespace FundooNotes.Controller
         }
         [HttpPut]
         [Route("api/UnArchive")]
-        public IActionResult UnArchive(int noteId, int userId)
+        public IActionResult UnArchive(int noteId)
         {
             try
             {
-                bool result = this.manager.UnArchive(noteId, userId);
+                bool result = this.manager.UnArchive(noteId);
 
                 if (result)
                 {
@@ -172,11 +174,11 @@ namespace FundooNotes.Controller
         }
         [HttpPut]
         [Route("api/PinAndUnpinNotes")]
-        public IActionResult PinAndUnpinNotes(int noteId, int userId)
+        public IActionResult PinAndUnpinNotes(int noteId)
         {
             try
             {
-                string result = this.manager.PinAndUnpinNotes(noteId, userId);
+                string result = this.manager.PinAndUnpinNotes(noteId);
 
                 if (!(result.Equals("Pinning Unsuccessfull")))
                 {
@@ -196,11 +198,11 @@ namespace FundooNotes.Controller
         }
         [HttpPut]
         [Route("api/UpdateColor")]
-        public IActionResult UpdateColor(int noteId, int userId,string color)
+        public IActionResult UpdateColor(int noteId,string color)
         {
             try
             {
-                bool result = this.manager.UpdateColor(noteId, userId, color);
+                bool result = this.manager.UpdateColor(noteId, color);
 
                 if (result)
                 {
@@ -220,11 +222,11 @@ namespace FundooNotes.Controller
         }
         [HttpPut]
         [Route("api/UpdateRemainder")]
-        public IActionResult UpdateRemainder(int noteId, int userId, string remainder)
+        public IActionResult UpdateRemainder(int noteId,  string remainder)
         {
             try
             {
-                bool result = this.manager.UpdateRemainder(noteId, userId, remainder);
+                bool result = this.manager.UpdateRemainder(noteId,  remainder);
 
                 if (result)
                 {
@@ -269,11 +271,11 @@ namespace FundooNotes.Controller
         }
         [HttpDelete]
         [Route("api/DeleteFromTrash")]
-        public IActionResult DeleteFromTrash(int noteId,int userId)
+        public IActionResult DeleteFromTrash(int noteId)
         {
             try
             {
-                bool result = this.manager.DeleteFromTrash(noteId,userId);
+                bool result = this.manager.DeleteFromTrash(noteId);
 
                 if (result)
                 {
