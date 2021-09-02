@@ -23,13 +23,17 @@ namespace Manager.Manager
             return this.repository.AddNotes(notes);
         }
 
-        public List<NotesModel> GetNotes(int id)
+        public List<NotesModel> GetNotes(int userId)
         {
-            return this.repository.GetNotes(id);
+            return this.repository.GetNotes(userId);
         }
-        public List<NotesModel> GetArchive(int id)
+        public List<NotesModel> GetArchive(int userId)
         {
-            return this.repository.GetArchive(id);
+            return this.repository.GetArchive(userId);
+        }
+        public List<NotesModel> GetRemainder(int userId)
+        {
+            return this.repository.GetRemainder(userId);
         }
         public bool MoveToTrash(int noteId)
         {

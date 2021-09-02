@@ -38,13 +38,13 @@ namespace Repository.Repository
             }
         }
 
-        public List<NotesModel> GetNotes(int id)
+        public List<NotesModel> GetNotes(int userId)
         {
             try
             {
                 //checking the result using linq query user id has the notes 
                 //if user id has n number of notes then push 
-                var notes = this.userContext.Notes.Where(note => note.UserId == id && note.Trash == false && note.Archieve==false).ToList();
+                var notes = this.userContext.Notes.Where(note => note.UserId == userId && note.Trash == false && note.Archieve==false).ToList();
                 return notes;
             }
             catch (Exception e)
@@ -52,13 +52,27 @@ namespace Repository.Repository
                 throw new Exception(e.Message);
             }
         }
-        public List<NotesModel> GetArchive(int id)
+        public List<NotesModel> GetArchive(int userId)
         {
             try
             {
                 //checking the result using linq query user id has the notes 
                 //if user id has n number of notes then push 
-                var notes = this.userContext.Notes.Where(note => note.UserId == id && note.Trash == false && note.Archieve == true).ToList();
+                var notes = this.userContext.Notes.Where(note => note.UserId == userId && note.Trash == false && note.Archieve == true).ToList();
+                return notes;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+        public List<NotesModel> GetRemainder(int userId)
+        {
+            try
+            {
+                //checking the result using linq query user id has the notes 
+                //if user id has n number of notes then push 
+                var notes = this.userContext.Notes.Where(note => note.UserId == userId && note.Trash == false && note.Remainder!=null).ToList();
                 return notes;
             }
             catch (Exception e)

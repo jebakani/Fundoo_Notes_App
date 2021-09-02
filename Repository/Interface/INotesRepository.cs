@@ -10,8 +10,9 @@ namespace Repository.Interface
     public interface INotesRepository
     {
         string AddNotes(NotesModel notes);
-        List<NotesModel> GetNotes(int id);
-        List<NotesModel> GetArchive(int id);
+        List<NotesModel> GetNotes(int userId);
+        List<NotesModel> GetArchive(int userId);
+        List<NotesModel> GetRemainder(int userId);
         bool MoveToTrash(int noteId);
         bool RestoreFromTrash(int noteId);
         bool MoveToArchieve(int noteId);

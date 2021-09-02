@@ -45,12 +45,12 @@ namespace FundooNotes.Controller
 
         [HttpGet]
         [Route("api/GetNotes")]
-        public IActionResult GetNotes(int id)
+        public IActionResult GetNotes(int userId)
         {
             try
             {
                 //getting the result as the list of Notes model
-                List<NotesModel> result = this.manager.GetNotes(id);
+                List<NotesModel> result = this.manager.GetNotes(userId);
 
                 if (result.Count!=0)
                 {
@@ -70,12 +70,12 @@ namespace FundooNotes.Controller
         }
         [HttpGet]
         [Route("api/GetArchive")]
-        public IActionResult GetArchive(int id)
+        public IActionResult GetArchive(int userId)
         {
             try
             {
                 //getting the result as the list of Notes model
-                List<NotesModel> result = this.manager.GetArchive(id);
+                List<NotesModel> result = this.manager.GetArchive(userId);
 
                 if (result.Count != 0)
                 {
@@ -93,7 +93,31 @@ namespace FundooNotes.Controller
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+        [HttpGet]
+        [Route("api/GetRemainder")]
+        public IActionResult GetRemainder(int userId)
+        {
+            try
+            {
+                //getting the result as the list of Notes model
+                List<NotesModel> result = this.manager.GetRemainder(userId);
 
+                if (result.Count != 0)
+                {
+                    ////Creates a OkResult object that produces an empty Status200OK response.
+                    return this.Ok(new { Status = true, Message = "Data is available", Data = result });
+                }
+                else
+                {
+                    ////Creates an BadRequestResult that produces a Status400BadRequest response.
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Data is not available" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
 
         /// <summary>
         /// Api to delete the note and move to trash
