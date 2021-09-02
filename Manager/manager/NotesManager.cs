@@ -68,5 +68,9 @@ namespace Manager.Manager
         {
             return this.repository.DeleteRemainder(noteId);
         }
+        public bool EmptyTrash(int userId)
+        {
+            return this.repository.EmptyTrash(userId);
+        }
     }
 }

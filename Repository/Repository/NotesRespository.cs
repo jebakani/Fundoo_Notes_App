@@ -253,5 +253,23 @@ namespace Repository.Repository
                 throw new Exception(e.Message);
             }
         }
+        public bool EmptyTrash(int userId)
+        {
+            try
+            {
+                var notes = this.userContext.Notes.Where(note => note.UserId == userId && note.Trash == true).ToList();
+                if (notes.Count > 0)
+                {
+                    this.userContext.Notes.RemoveRange(notes);
+                    this.userContext.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
     }
 }

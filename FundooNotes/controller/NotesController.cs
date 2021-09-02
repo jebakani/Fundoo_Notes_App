@@ -52,7 +52,7 @@ namespace FundooNotes.Controller
                 //getting the result as the list of Notes model
                 List<NotesModel> result = this.manager.GetNotes(id);
 
-                if (result!=null)
+                if (result.Count!=0)
                 {
                     ////Creates a OkResult object that produces an empty Status200OK response.
                     return this.Ok(new { Status = true, Message = "Data is available",Data=result });
@@ -311,6 +311,30 @@ namespace FundooNotes.Controller
                 {
                     ////Creates an BadRequestResult that produces a Status400BadRequest response.
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Notes is not deleted" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+        [HttpDelete]
+        [Route("api/EmptyTrash")]
+        public IActionResult EmptyTrash(int userId)
+        {
+            try
+            {
+                bool result = this.manager.EmptyTrash(userId);
+
+                if (result)
+                {
+                    ////Creates a OkResult object that produces an empty Status200OK response.
+                    return this.Ok(new ResponseModel<string> { Status = true, Message = "All notes get deleted" });
+                }
+                else
+                {
+                    ////Creates an BadRequestResult that produces a Status400BadRequest response.
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Notes are not deleted" });
                 }
             }
             catch (Exception ex)
