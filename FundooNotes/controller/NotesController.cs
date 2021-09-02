@@ -246,6 +246,31 @@ namespace FundooNotes.Controller
         }
 
         [HttpPut]
+        [Route("api/DeleteRemainder")]
+        public IActionResult DeleteRemainder(int noteId)
+        {
+            try
+            {
+                bool result = this.manager.DeleteRemainder(noteId);
+
+                if (result)
+                {
+                    ////Creates a OkResult object that produces an empty Status200OK response.
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "remainder is Deleted" });
+                }
+                else
+                {
+                    ////Creates an BadRequestResult that produces a Status400BadRequest response.
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "remainder is not Deleted" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
+        [HttpPut]
         [Route("api/UpdateNote")]
         public IActionResult UpdateNote([FromBody] NotesUpdateModel updateNote)
         {

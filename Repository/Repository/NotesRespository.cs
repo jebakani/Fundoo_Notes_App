@@ -60,7 +60,7 @@ namespace Repository.Repository
                 if (notes != null)
                 {
                     notes.Trash = true;
-                    this.userContext.Update(notes);
+                    this.userContext.Notes.Update(notes);
                     this.userContext.SaveChanges();
                     return true;
                 }
@@ -79,7 +79,7 @@ namespace Repository.Repository
                 if (notes != null)
                 {
                     notes.Trash = false;
-                    this.userContext.Update(notes);
+                    this.userContext.Notes.Update(notes);
                     this.userContext.SaveChanges();
                     return true;
                 }
@@ -98,7 +98,7 @@ namespace Repository.Repository
                 if (notes != null)
                 {
                     notes.Archieve = true;
-                    this.userContext.Update(notes);
+                    this.userContext.Notes.Update(notes);
                     this.userContext.SaveChanges();
                     return true;
                 }
@@ -117,7 +117,7 @@ namespace Repository.Repository
                 if (notes != null)
                 {
                     notes.Archieve = false;
-                    this.userContext.Update(notes);
+                    this.userContext.Notes.Update(notes);
                     this.userContext.SaveChanges();
                     return true;
                 }
@@ -146,7 +146,7 @@ namespace Repository.Repository
                         notes.Pin = true;
                         message = "notes is pinned";
                     }
-                    this.userContext.Update(notes);
+                    this.userContext.Notes.Update(notes);
                     this.userContext.SaveChanges();
                     return message;
                 }
@@ -167,7 +167,7 @@ namespace Repository.Repository
                 {
                     notes.Description = updateNote.Description;
                     notes.Title = updateNote.Title;
-                    this.userContext.Update(notes);
+                    this.userContext.Notes.Update(notes);
                     this.userContext.SaveChanges();
                     return notes;
                 }
@@ -204,7 +204,7 @@ namespace Repository.Repository
                 if(note!=null)
                 {
                     note.Color = color;
-                    this.userContext.Update(note);
+                    this.userContext.Notes.Update(note);
                     this.userContext.SaveChanges();
                     return true;
                 }
@@ -223,7 +223,26 @@ namespace Repository.Repository
                 if (note != null)
                 {
                     note.Remainder = remainder;
-                    this.userContext.Update(note);
+                    this.userContext.Notes.Update(note);
+                    this.userContext.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+        public bool DeleteRemainder(int noteId)
+        {
+            try
+            {
+                var note = this.userContext.Notes.Where(note => note.NotesId == noteId && note.Trash == false).FirstOrDefault();
+                if (note != null)
+                {
+                    note.Remainder = null;
+                    this.userContext.Notes.Update(note);
                     this.userContext.SaveChanges();
                     return true;
                 }

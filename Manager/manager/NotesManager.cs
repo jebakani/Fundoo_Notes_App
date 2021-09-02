@@ -64,6 +64,9 @@ namespace Manager.Manager
         {
             return this.repository.UpdateRemainder(noteId, remainder);
         }
-
+        public bool DeleteRemainder(int noteId)
+        {
+            return this.repository.DeleteRemainder(noteId);
+        }
     }
 }

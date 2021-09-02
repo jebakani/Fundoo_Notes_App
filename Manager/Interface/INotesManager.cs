@@ -21,6 +21,7 @@ namespace Manager.Interface
         bool DeleteFromTrash(int noteId);
         bool UpdateColor(int noteId, string color);
         bool UpdateRemainder(int noteId, string remainder);
+        bool DeleteRemainder(int noteId);
 
 
     }
