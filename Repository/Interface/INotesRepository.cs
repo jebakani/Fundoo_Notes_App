@@ -14,7 +14,7 @@ namespace Repository.Interface
         List<NotesModel> GetArchive(int userId);
         List<NotesModel> GetRemainder(int userId);
         List<NotesModel> GetTrash(int userId);
-        bool MoveToTrash(int noteId);
+        string MoveToTrash(int noteId);
         bool RestoreFromTrash(int noteId);
         bool MoveToArchieve(int noteId);
         bool UnArchive(int noteId);

@@ -39,7 +39,7 @@ namespace Manager.Manager
         {
             return this.repository.GetTrash(userId);
         }
-        public bool MoveToTrash(int noteId)
+        public string MoveToTrash(int noteId)
         {
             return this.repository.MoveToTrash(noteId);
         }

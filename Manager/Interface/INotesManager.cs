@@ -17,7 +17,7 @@ namespace Manager.Interface
         List<NotesModel> GetTrash(int userId);
 
 
-        bool MoveToTrash(int noteId);
+        string MoveToTrash(int noteId);
         bool MoveToArchieve(int noteId);
         bool UnArchive(int noteId);
         bool RestoreFromTrash(int noteId);

@@ -94,19 +94,32 @@ namespace Repository.Repository
                 throw new Exception(e.Message);
             }
         }
-        public bool MoveToTrash(int noteId)
+        public string MoveToTrash(int noteId)
         {
             try
             {
+                string message;
                 var notes = this.userContext.Notes.Where(note => note.NotesId == noteId).FirstOrDefault();
-                if (notes != null)
+                if (notes == null)
                 {
-                    notes.Trash = true;
-                    this.userContext.Notes.Update(notes);
-                    this.userContext.SaveChanges();
-                    return true;
+                    return "Move to trash unsuccessful";
                 }
-                return false;
+
+                if (notes.Pin == true)
+                {
+                    message = "Unpinned and move to trash";
+                    notes.Pin = false;
+                }
+                else
+                {
+                    message = "Notes Moved to trash";
+                }
+                notes.Remainder = null;
+                notes.Trash = true;
+                this.userContext.Notes.Update(notes);
+                this.userContext.SaveChanges();
+                return message;
+
             }
             catch (Exception e)
             {
