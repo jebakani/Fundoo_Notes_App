@@ -47,6 +47,7 @@ namespace FundooNotes.Controller
         [Route("api/register")]
         public IActionResult Register([FromBody]RegisterModel userData)
         {
+            _logger.LogInformation("Registration of new user initialized");
             try
             {
                 string result = this.manager.Register(userData);
@@ -66,6 +67,7 @@ namespace FundooNotes.Controller
             }
             catch (Exception ex)
             {
+                _logger.LogError("Error occurs:" + ex.Message);
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
@@ -91,12 +93,14 @@ namespace FundooNotes.Controller
                 }
                 else
                 {
+                    _logger.LogWarning(loginData.EmailId+" :Login failed ");
                     ////Creates an BadRequestResult that produces a Status400BadRequest response.
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Login UnSuccessful" });
                 }
             }
             catch (Exception ex)
             {
+                _logger.LogError("Error occurs:" + ex.Message);
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
@@ -110,6 +114,7 @@ namespace FundooNotes.Controller
         [Route("api/forgetPassword")]
         public IActionResult ForgetPassword(string email)
         {
+            _logger.LogInformation("Forget password is initialized");
             try
             {
                 bool result = this.manager.ForgetPassword(email);
@@ -144,17 +149,20 @@ namespace FundooNotes.Controller
                 bool result = this.manager.ResetPassword(resetPassword);
                 if (result == true)
                 {
+                    _logger.LogInformation("password resetted");
                     ////Creates a OkResult object that produces an empty Status200OK response.
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = "Reset password successfull" });
                 }
                 else
                 {
+                    _logger.LogWarning("password reset fail");
                     ////Creates an BadRequestResult that produces a Status400BadRequest response.
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Reset password Unsuccessfull" });
                 }
             }
             catch (Exception ex)
             {
+                _logger.LogError("Error:"+ex.Message);
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
