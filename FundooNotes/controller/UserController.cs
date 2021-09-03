@@ -13,6 +13,7 @@ namespace FundooNotes.Controller
     using System.Threading.Tasks;
     using Manager.Interface;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
     using Model;
     using Models;
     
@@ -25,15 +26,16 @@ namespace FundooNotes.Controller
         /// create the object for IUserManager
         /// </summary>
         private readonly IUserManager manager;
-
+        private readonly ILogger<UserController> _logger;
         /// <summary>
         /// Constructor to assign object of IUserManager
         /// Initializes a new instance of the <see cref="UserController"/> class
         /// </summary>
         /// <param name="manager">IUserManager manager</param>
-        public UserController(IUserManager manager)
+        public UserController(IUserManager manager, ILogger<UserController> logger)
         {
             this.manager = manager;
+            this._logger = logger;
         }
 
         /// <summary>
@@ -52,10 +54,12 @@ namespace FundooNotes.Controller
                 if (result.Equals("Registration Successful"))
                 {
                     ////Creates a OkResult object that produces an empty Status200OK response.
+                    _logger.LogInformation(""+userData.FirstName+" is registered");
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result});
                 }
                 else
                 {
+                    _logger.LogError("Registration unsuccessfull");
                     ////Creates an BadRequestResult that produces a Status400BadRequest response.
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
                 }
@@ -81,6 +85,7 @@ namespace FundooNotes.Controller
                 string resultMassage = this.manager.GenerateToken(loginData.EmailId);
                 if (result != null)
                 {
+                    _logger.LogInformation("" + result.FirstName + " is loggedIn");
                     ////Creates a OkResult object that produces an empty Status200OK response.
                     return this.Ok(new  { Status = true, Message = "Login Successful", data = result.toString(),resultMassage});
                 }
