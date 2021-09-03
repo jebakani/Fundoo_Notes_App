@@ -103,7 +103,7 @@ namespace FundooNotes
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = false,
-                    ValidateAudience = true,
+                    ValidateAudience = false,
                     ValidateLifetime = false,
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this.Configuration["SecretKey"])) //Configuration["JwtToken:SecretKey"]  

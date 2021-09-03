@@ -96,7 +96,7 @@ namespace FundooNotes1.Repository
 
         public string GenerateToken(string email)
         {
-            byte[] key = Convert.FromBase64String(this.Configuration["SecretKey"]);
+            var key = Encoding.UTF8.GetBytes(this.Configuration["SecretKey"]);
             SymmetricSecurityKey securityKey = new SymmetricSecurityKey(key);
             SecurityTokenDescriptor descriptor = new SecurityTokenDescriptor
             {
