@@ -47,7 +47,7 @@ namespace Manager.Manager
         {
             return this.repository.RestoreFromTrash(noteId);
         }
-        public bool MoveToArchieve(int noteId)
+        public string MoveToArchieve(int noteId)
         {
             return this.repository.MoveToArchieve(noteId);
         }

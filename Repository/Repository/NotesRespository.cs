@@ -145,19 +145,29 @@ namespace Repository.Repository
                 throw new Exception(e.Message);
             }
         }
-        public bool MoveToArchieve(int noteId)
+        public string MoveToArchieve(int noteId)
         {
             try
             {
+                string message;
                 var notes = this.userContext.Notes.Where(note =>  note.NotesId == noteId && note.Trash==false).FirstOrDefault();
                 if (notes != null)
                 {
+                    if (notes.Pin == true)
+                    {
+                        message = "Unpinned and Note is archive";
+                        notes.Pin = false;
+                    }
+                    else
+                    {
+                        message = "Notes archived";
+                    }
                     notes.Archieve = true;
                     this.userContext.Notes.Update(notes);
                     this.userContext.SaveChanges();
-                    return true;
+                    return message;
                 }
-                return false;
+                return "Notes not available";
             }
             catch (Exception e)
             {

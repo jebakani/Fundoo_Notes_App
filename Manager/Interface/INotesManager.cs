@@ -18,7 +18,7 @@ namespace Manager.Interface
 
 
         string MoveToTrash(int noteId);
-        bool MoveToArchieve(int noteId);
+        string MoveToArchieve(int noteId);
         bool UnArchive(int noteId);
         bool RestoreFromTrash(int noteId);
         string PinAndUnpinNotes(int noteId);

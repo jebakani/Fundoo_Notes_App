@@ -16,7 +16,7 @@ namespace Repository.Interface
         List<NotesModel> GetTrash(int userId);
         string MoveToTrash(int noteId);
         bool RestoreFromTrash(int noteId);
-        bool MoveToArchieve(int noteId);
+        string MoveToArchieve(int noteId);
         bool UnArchive(int noteId);
         string PinAndUnpinNotes(int noteId);
         NotesModel UpdateNote(NotesUpdateModel updateNote);

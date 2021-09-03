@@ -205,17 +205,17 @@ namespace FundooNotes.Controller
         {
             try
             {
-                bool result = this.manager.MoveToArchieve(noteId);
+                string result = this.manager.MoveToArchieve(noteId);
 
-                if (result)
+                if (!result.Equals("Notes not available"))
                 {
                     ////Creates a OkResult object that produces an empty Status200OK response.
-                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Notes moved to Archieve" });
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
                 }
                 else
                 {
                     ////Creates an BadRequestResult that produces a Status400BadRequest response.
-                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Can't move to Archieve" });
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
                 }
             }
             catch (Exception ex)
