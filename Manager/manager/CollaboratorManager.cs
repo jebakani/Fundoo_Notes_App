@@ -22,11 +22,13 @@ namespace Manager.Manager
         {
            return this.repository.AddCollaborator(collaborator);
         }
-        public string RemoveCollaborator(List<int> collaborators)
+        public string RemoveCollaborator(int collaboratorId)
         {
-            return this.repository.RemoveCollaborator(collaborators);
+            return this.repository.RemoveCollaborator(collaboratorId);
         }
-
-
+        public List<CollaboratorModel> GetCollaborator(int NoteId)
+        {
+            return this.repository.GetCollaborator(NoteId);
+        }
     }
 }

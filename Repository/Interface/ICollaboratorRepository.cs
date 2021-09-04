@@ -11,6 +11,7 @@ namespace Repository.Interface
     {
         string AddCollaborator(CollaboratorModel collaborator);
         string RemoveCollaborator(int collaboratorId);
+        List<CollaboratorModel> GetCollaborator(int NoteId);
 
     }
 }

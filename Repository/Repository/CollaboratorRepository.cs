@@ -53,13 +53,27 @@ namespace Repository.Repository
                 {
                     this.userContext.Collaborators.Remove(collaborator);
                     this.userContext.SaveChanges();
-                    return "Collaborator is deleted"
+                    return "Collaborator is deleted";
                 }
                 return "can't able to delete";
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
+            }
+        }
+        public List<CollaboratorModel> GetCollaborator(int NoteId)
+        {
+            try
+            {
+                /*checking the result using linq query user id has the notes 
+                  if user id has n number of notes then push*/ 
+                var collaborators = this.userContext.Collaborators.Where(c => c.NoteId == NoteId).ToList();
+                return collaborators;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
             }
         }
 

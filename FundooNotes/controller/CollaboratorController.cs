@@ -66,6 +66,30 @@ namespace FundooNotes.Controller
 
             }
         }
+        [HttpGet]
+        [Route("api/GetCollaborator")]
+        public IActionResult GetCollaborator(int NoteId)
+        {
+            try
+            {
+                var result = this.manager.GetCollaborator(NoteId);
+
+                if (result.Count>0)
+                {
+                    ////Creates a OkResult object that produces an empty Status200OK response.
+                    return this.Ok(new { Status = true, Message = "collaborator retrived",Data=result });
+                }
+                else
+                {
+                    ////Creates an BadRequestResult that produces a Status400BadRequest response.
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Can't able to retrive the collaborator" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }
 

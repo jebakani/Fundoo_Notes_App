@@ -10,7 +10,9 @@ namespace Manager.Interface
     public interface ICollaboratorManager
     {
         string AddCollaborator(CollaboratorModel collaborator);
-        string RemoveCollaborator(List<int> collaborators);
+        string RemoveCollaborator(int collaboratorId);
+        List<CollaboratorModel> GetCollaborator(int NoteId);
+
 
     }
 }
