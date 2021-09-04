@@ -211,6 +211,11 @@ namespace Repository.Repository
                         notes.Pin = true;
                         message = "notes is pinned";
                     }
+                    if(notes.Archieve)
+                    {
+                        notes.Archieve = false;
+                        message = "Notes unarchived and pinned";
+                    }
                     this.userContext.Notes.Update(notes);
                     this.userContext.SaveChanges();
                     return message;
