@@ -22,6 +22,11 @@ namespace Manager.Manager
         {
            return this.repository.AddCollaborator(collaborator);
         }
-    
+        public string RemoveCollaborator(List<int> collaborators)
+        {
+            return this.repository.RemoveCollaborator(collaborators);
+        }
+
+
     }
 }

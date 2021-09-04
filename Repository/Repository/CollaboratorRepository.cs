@@ -1,9 +1,12 @@
-﻿using Models;
+﻿using Experimental.System.Messaging;
+using Models;
 using Repository.Context;
 using Repository.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -40,5 +43,31 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        public string RemoveCollaborator(List<int> collaborators)
+        {
+            try
+            {
+                if (collaborators.Count>0)
+                {
+                    foreach (var l in collaborators)
+                    {
+                        var collaborator = this.userContext.Collaborators.Where(x => x.ColId == l).SingleOrDefault();
+                        if (collaborator != null)
+                        {
+                            this.userContext.Collaborators.Remove(collaborator);
+                            this.userContext.SaveChanges();
+                        }
+                    }
+                    return "Collaborator is deleted";
+                }
+                return "can't able to delete";
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
     }
 }

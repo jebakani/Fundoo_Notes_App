@@ -34,7 +34,33 @@ namespace FundooNotes.Controller
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+
+            }
+        }
+
+        [HttpPost]
+        [Route("api/RemoveCollaborator")]
+        public IActionResult RemoveCollaborator([FromBody] List<int> collaborator)
+        {
+            try
+            {
+                string result = this.manager.RemoveCollaborator(collaborator);
+
+                if (result.Equals("Collaborator is added"))
+                {
+                    ////Creates a OkResult object that produces an empty Status200OK response.
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
+                }
+                else
+                {
+                    ////Creates an BadRequestResult that produces a Status400BadRequest response.
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
+                }
+            }
+            catch (Exception ex)
             {
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
 
@@ -42,3 +68,4 @@ namespace FundooNotes.Controller
         }
     }
 }
+
