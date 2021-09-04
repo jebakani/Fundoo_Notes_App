@@ -45,6 +45,7 @@ namespace Repository.Repository
                 //checking the result using linq query user id has the notes 
                 //if user id has n number of notes then push 
                 var notes = this.userContext.Notes.Where(note => note.UserId == userId && note.Trash == false && note.Archieve==false).ToList();
+                
                 return notes;
             }
             catch (Exception e)
