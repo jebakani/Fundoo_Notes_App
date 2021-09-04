@@ -34,5 +34,6 @@ namespace Repository.Context
         /// </summary>
         public DbSet<RegisterModel> user { get; set; }
         public DbSet<NotesModel> Notes { get; set; }
+        public DbSet<CollaboratorModel> Collaborators { get; set; }
     }
 }

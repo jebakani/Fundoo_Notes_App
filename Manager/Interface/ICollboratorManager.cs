@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,9 @@ using System.Threading.Tasks;
 
 namespace Manager.Interface
 {
-    interface ICollboratorManager
+    public interface ICollaboratorManager
     {
+        string AddCollaborator(CollaboratorModel collaborator);
+
     }
 }
