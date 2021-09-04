@@ -44,22 +44,16 @@ namespace Repository.Repository
             }
         }
 
-        public string RemoveCollaborator(List<int> collaborators)
+        public string RemoveCollaborator(int collaboratorsId)
         {
             try
             {
-                if (collaborators.Count>0)
+                var collaborator = this.userContext.Collaborators.Where(x => x.ColId == collaboratorsId).SingleOrDefault();
+                if (collaborator != null)
                 {
-                    foreach (var l in collaborators)
-                    {
-                        var collaborator = this.userContext.Collaborators.Where(x => x.ColId == l).SingleOrDefault();
-                        if (collaborator != null)
-                        {
-                            this.userContext.Collaborators.Remove(collaborator);
-                            this.userContext.SaveChanges();
-                        }
-                    }
-                    return "Collaborator is deleted";
+                    this.userContext.Collaborators.Remove(collaborator);
+                    this.userContext.SaveChanges();
+                    return "Collaborator is deleted"
                 }
                 return "can't able to delete";
             }

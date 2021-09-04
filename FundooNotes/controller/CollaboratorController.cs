@@ -43,11 +43,11 @@ namespace FundooNotes.Controller
 
         [HttpPost]
         [Route("api/RemoveCollaborator")]
-        public IActionResult RemoveCollaborator([FromBody] List<int> collaborator)
+        public IActionResult RemoveCollaborator(int collaboratorId)
         {
             try
             {
-                string result = this.manager.RemoveCollaborator(collaborator);
+                string result = this.manager.RemoveCollaborator(collaboratorId);
 
                 if (result.Equals("Collaborator is added"))
                 {
