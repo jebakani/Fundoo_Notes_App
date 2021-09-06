@@ -77,5 +77,25 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
+        public string DeleteLabel(int lableId)
+        {
+            try
+            {
+
+                var noteLabel = this.userContext.Label.Where(x => x.LabelId == lableId).SingleOrDefault();
+                var deleteLabel = this.userContext.Label.Where(x => x.LabelName.Equals(noteLabel.LabelName)).ToList();
+                if (noteLabel != null)
+                {
+                    this.userContext.Label.RemoveRange(deleteLabel);
+                    this.userContext.SaveChanges();
+                    return ("Label is deleted");
+                }
+                return "Delete label failed";
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
