@@ -29,9 +29,9 @@ namespace Manager.Manager
         {
             return this.repository.RemoveLabel(lableId);
         }
-        public string DeleteLabel(int labelId)
+        public string DeleteLabel(int userId,int labelName)
         {
-            return this.repository.DeleteLabel(labelId);
+            return this.repository.DeleteLabel(userId,labelName);
         }
     }
 }
