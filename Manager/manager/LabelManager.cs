@@ -21,5 +21,9 @@ namespace Manager.Manager
         {
             return this.repository.CreateLabel(label);
         }
+        public string AddLabel(LabelModel label)
+        {
+            return this.repository.AddLabel(label);
+        }
     }
 }

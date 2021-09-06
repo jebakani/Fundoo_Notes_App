@@ -10,5 +10,6 @@ namespace Manager.Interface
     public interface ILabelManager
     {
         string CreateLabel(LabelModel label);
+        string AddLabel(LabelModel label);
     }
 }

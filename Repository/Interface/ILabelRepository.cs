@@ -10,5 +10,6 @@ namespace Repository.Interface
     public interface ILabelRepository
     {
         string CreateLabel(LabelModel label);
+        string AddLabel(LabelModel label);
     }
 }

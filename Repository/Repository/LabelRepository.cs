@@ -24,11 +24,34 @@ namespace Repository.Repository
                 var labels = this.userContext.Label.Where(x => x.LabelName.Equals(label.LabelName) && x.UserId==label.UserId).SingleOrDefault();
                 if(labels==null)
                 {
+                    label.NoteId = null;
                     this.userContext.Label.Add(label);
                     this.userContext.SaveChanges();
                     return ("Label is added");
                 }
                 return ("label already Exists");
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public string AddLabel(LabelModel label)
+        {
+            try
+            {
+                var noteId = label.NoteId;
+                CreateLabel(label);
+                label.NoteId = noteId;
+                label.LabelId = 0;
+                var noteLabel = this.userContext.Label.Where(x => x.LabelName.Equals(label.LabelName) && x.NoteId == label.NoteId).SingleOrDefault();
+                if (noteLabel == null)
+                {
+                    this.userContext.Label.Add(label);
+                    this.userContext.SaveChanges();
+                    return ("Label is added");
+                }
+                return "Label already exists";
             }
             catch(Exception ex)
             {
