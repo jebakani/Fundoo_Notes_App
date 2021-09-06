@@ -92,7 +92,7 @@ namespace FundooNotes.Controller
         }
         [HttpDelete]
         [Route("api/DeleteLabel")]
-        public IActionResult DeleteLabel(int userId, int labelName)
+        public IActionResult DeleteLabel(int userId, string labelName)
         {
             try
             {
@@ -107,6 +107,81 @@ namespace FundooNotes.Controller
                 {
                     ////Creates an BadRequestResult that produces a Status400BadRequest response.
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+
+            }
+        }
+        [HttpGet]
+        [Route("api/GetLabelForUser")]
+        public IActionResult GetLabelForUser(int userId)
+        {
+            try
+            {
+                var result = this.manager.GetLabelByUserId(userId);
+
+                if (result.Count>0)
+                { 
+                    ////Creates a OkResult object that produces an empty Status200OK response.
+                    return this.Ok(new { Status = true, Message = "Labels are retrived" ,Data=result});
+                }
+                else
+                {
+                    ////Creates an BadRequestResult that produces a Status400BadRequest response.
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "No label available" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+
+            }
+        }
+        [HttpGet]
+        [Route("api/GetLabelForNotes")]
+        public IActionResult GetLabelForNotes(int noteId)
+        {
+            try
+            {
+                var result = this.manager.GetLabelByUserId(noteId);
+
+                if (result.Count > 0)
+                {
+                    ////Creates a OkResult object that produces an empty Status200OK response.
+                    return this.Ok(new { Status = true, Message = "Labels are retrived", Data = result });
+                }
+                else
+                {
+                    ////Creates an BadRequestResult that produces a Status400BadRequest response.
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "No label available" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+
+            }
+        }
+        [HttpPut]
+        [Route("api/UpdateLabel")]
+        public IActionResult UpdateLabel([FromBody]LabelModel label)
+        {
+            try
+            {
+                var result = this.manager.EditLabel(label);
+
+                if (result.Equals("Label is updated"))
+                {
+                    ////Creates a OkResult object that produces an empty Status200OK response.
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message =result});
+                }
+                else
+                {
+                    ////Creates an BadRequestResult that produces a Status400BadRequest response.
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "No label available" });
                 }
             }
             catch (Exception ex)

@@ -12,6 +12,10 @@ namespace Repository.Interface
         string CreateLabel(LabelModel label);
         string AddLabel(LabelModel label);
         string RemoveLabel(int lableId);
-        string DeleteLabel(int userId, int labelName);
+        string DeleteLabel(int userId, string labelName);
+        List<LabelModel> GetLabelByUserId(int userId);
+        List<LabelModel> GetLabelByNoteId(int noteId);
+        string EditLabel(LabelModel label);
+
     }
 }
