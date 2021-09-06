@@ -1,5 +1,6 @@
 ﻿using Manager.Interface;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using System;
@@ -410,6 +411,30 @@ namespace FundooNotes.Controller
                 {
                     ////Creates an BadRequestResult that produces a Status400BadRequest response.
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Notes are not deleted" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+        [HttpPut]
+        [Route("api/AddImage")]
+        public IActionResult AddImage(int noteId,IFormFile image)
+        {
+            try
+            {
+                bool result = this.manager.AddImage(noteId,image);
+
+                if (result)
+                {
+                    ////Creates a OkResult object that produces an empty Status200OK response.
+                    return this.Ok(new ResponseModel<string> { Status = true, Message = "Image added successfully" });
+                }
+                else
+                {
+                    ////Creates an BadRequestResult that produces a Status400BadRequest response.
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Image added failed" });
                 }
             }
             catch (Exception ex)

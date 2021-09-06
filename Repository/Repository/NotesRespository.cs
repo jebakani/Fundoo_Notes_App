@@ -1,4 +1,8 @@
-﻿using Models;
+﻿using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using Models;
 using Repository.Context;
 using Repository.Interface;
 using System;
@@ -12,9 +16,11 @@ namespace Repository.Repository
     public class NotesRespository : INotesRepository
     {
         private readonly UserContext userContext;
-        public NotesRespository(UserContext userContext)
+        public IConfiguration Configuration { get; }
+        public NotesRespository(UserContext userContext, IConfiguration Configuration)
         {
             this.userContext = userContext;
+            this.Configuration = Configuration;
         }
         public string AddNotes(NotesModel notes)
         {
@@ -44,8 +50,15 @@ namespace Repository.Repository
             {
                 //checking the result using linq query user id has the notes 
                 //if user id has n number of notes then push 
-                var notes = this.userContext.Notes.Where(note => note.UserId == userId && note.Trash == false && note.Archieve==false).ToList();
-                
+                var notes = this.userContext.Notes.Where(note => note.UserId == userId && note.Trash == false && note.Archieve == false).ToList();
+
+                var emailId = userContext.user.Where(x => x.id == userId).Select(x => x.Email).SingleOrDefault();
+                var collaboratorNotes = (from note in this.userContext.Notes
+                                         join collaborator in this.userContext.Collaborators
+                                         on note.NotesId equals collaborator.NoteId
+                                         where collaborator.EmailId.Equals(emailId)
+                                         select note ).ToList();
+                notes.AddRange(collaboratorNotes);
                 return notes;
             }
             catch (Exception e)
@@ -340,6 +353,34 @@ namespace Repository.Repository
             catch (Exception e)
             {
                 throw new Exception(e.Message);
+            }
+        }
+        public bool AddImage(int noteId,IFormFile image)
+        {
+            try
+            {
+                Account account = new Account(this.Configuration.GetValue<string>("CloudConfiguration:CloudName"), this.Configuration.GetValue<string>("CloudConfiguration:APIKey"), this.Configuration.GetValue<string>("CloudConfiguration:APISecret"));
+                var cloudinary = new Cloudinary(account);
+                var uploadParams = new ImageUploadParams()
+                {
+                    File = new FileDescription(image.FileName, image.OpenReadStream()),
+                };
+
+                var uploadResult = cloudinary.Upload(uploadParams);
+                string imagePath = uploadResult.Url.ToString();
+                var notes = this.userContext.Notes.Where(x => x.NotesId == noteId).SingleOrDefault();
+                if (notes != null)
+                {
+                    notes.Image = imagePath;
+                    this.userContext.Notes.Update(notes);
+                    this.userContext.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
         }
     }

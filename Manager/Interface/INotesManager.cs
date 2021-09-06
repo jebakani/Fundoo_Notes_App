@@ -1,4 +1,5 @@
-﻿using Models;
+﻿using Microsoft.AspNetCore.Http;
+using Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +29,7 @@ namespace Manager.Interface
         bool UpdateRemainder(int noteId, string remainder);
         bool DeleteRemainder(int noteId);
         bool EmptyTrash(int userId);
-
+        bool AddImage(int noteId, IFormFile image);
 
     }
 }
