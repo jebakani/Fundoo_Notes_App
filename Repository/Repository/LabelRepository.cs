@@ -58,5 +58,24 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
+        public string RemoveLabel(int lableId)
+        {
+            try
+            {
+              
+                var noteLabel = this.userContext.Label.Where(x =>x.LabelId==lableId).SingleOrDefault();
+                if (noteLabel != null)
+                {
+                    this.userContext.Label.Remove(noteLabel);
+                    this.userContext.SaveChanges();
+                    return ("Label is removed");
+                }
+                return "Remove label failed";
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

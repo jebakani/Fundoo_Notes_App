@@ -65,6 +65,30 @@ namespace FundooNotes.Controller
 
             }
         }
+        [HttpDelete]
+        [Route("api/RemoveLabel")]
+        public IActionResult RemoveLabel(int labelId)
+        {
+            try
+            {
+                string result = this.manager.RemoveLabel(labelId);
 
+                if (result.Equals("Label is removed"))
+                {
+                    ////Creates a OkResult object that produces an empty Status200OK response.
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
+                }
+                else
+                {
+                    ////Creates an BadRequestResult that produces a Status400BadRequest response.
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+
+            }
+        }
     }
 }

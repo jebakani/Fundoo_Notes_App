@@ -25,5 +25,9 @@ namespace Manager.Manager
         {
             return this.repository.AddLabel(label);
         }
+        public string RemoveLabel(int lableId)
+        {
+            return this.repository.RemoveLabel(lableId);
+        }
     }
 }
