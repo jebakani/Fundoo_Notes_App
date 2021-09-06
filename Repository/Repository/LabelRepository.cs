@@ -77,14 +77,12 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
-        public string DeleteLabel(int lableId)
+        public string DeleteLabel(int userId, int labelName)
         {
             try
             {
-
-                var noteLabel = this.userContext.Label.Where(x => x.LabelId == lableId).SingleOrDefault();
-                var deleteLabel = this.userContext.Label.Where(x => x.LabelName.Equals(noteLabel.LabelName)).ToList();
-                if (noteLabel != null)
+                var deleteLabel = this.userContext.Label.Where(x => x.LabelName.Equals(labelName)&& x.UserId==userId).ToList();
+                if (deleteLabel != null)
                 {
                     this.userContext.Label.RemoveRange(deleteLabel);
                     this.userContext.SaveChanges();
