@@ -140,5 +140,30 @@ namespace FundooNotes.Controller
 
             }
         }
+        [HttpGet]
+        [Route("api/GetLabelForNotes")]
+        public IActionResult GetLabelForNotes(int noteId)
+        {
+            try
+            {
+                var result = this.manager.GetLabelByUserId(noteId);
+
+                if (result.Count > 0)
+                {
+                    ////Creates a OkResult object that produces an empty Status200OK response.
+                    return this.Ok(new { Status = true, Message = "Labels are retrived", Data = result });
+                }
+                else
+                {
+                    ////Creates an BadRequestResult that produces a Status400BadRequest response.
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "No label available" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+
+            }
+        }
     }
 }

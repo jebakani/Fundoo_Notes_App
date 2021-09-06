@@ -99,7 +99,19 @@ namespace Repository.Repository
         {
             try
             {
-                var label = this.userContext.Label.Where(x => x.UserId == userId && x.NoteId!=null).ToList();
+                var label = this.userContext.Label.Where(x => x.UserId == userId && x.NoteId == null).ToList();
+                return label;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public List<LabelModel> GetLabelByNoteId(int noteId)
+        {
+            try
+            {
+                var label = this.userContext.Label.Where(x => x.NoteId == noteId).ToList();
                 return label;
             }
             catch (Exception ex)

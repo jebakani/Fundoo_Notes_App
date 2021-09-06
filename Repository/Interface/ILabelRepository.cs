@@ -14,5 +14,7 @@ namespace Repository.Interface
         string RemoveLabel(int lableId);
         string DeleteLabel(int userId, string labelName);
         List<LabelModel> GetLabelByUserId(int userId);
+        List<LabelModel> GetLabelByNoteId(int noteId);
+
     }
 }

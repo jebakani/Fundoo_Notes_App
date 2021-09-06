@@ -37,5 +37,9 @@ namespace Manager.Manager
         {
             return this.repository.GetLabelByUserId(userId);
         }
+        public List<LabelModel> GetLabelByNoteId(int noteId)
+        {
+            return this.repository.GetLabelByNoteId(noteId);
+        }
     }
 }
