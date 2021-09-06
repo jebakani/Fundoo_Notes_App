@@ -92,11 +92,11 @@ namespace FundooNotes.Controller
         }
         [HttpDelete]
         [Route("api/DeleteLabel")]
-        public IActionResult DeleteLabel(int labelId)
+        public IActionResult DeleteLabel(int userId, int labelName)
         {
             try
             {
-                string result = this.manager.DeleteLabel(labelId);
+                string result = this.manager.DeleteLabel(userId, labelName);
 
                 if (result.Equals("Label is deleted"))
                 {
