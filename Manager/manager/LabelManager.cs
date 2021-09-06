@@ -41,5 +41,10 @@ namespace Manager.Manager
         {
             return this.repository.GetLabelByNoteId(noteId);
         }
+        public string EditLabel(LabelModel label)
+        {
+            return this.repository.EditLabel(label);
+        }
+
     }
 }

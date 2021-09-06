@@ -119,5 +119,30 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
+        public string EditLabel(LabelModel label)
+        {
+            try
+            {
+
+                var labels = this.userContext.Label.Find(label.LabelId);
+                if(labels==null)
+                {
+                    return "Updation failed";
+                }
+                var updateLabel = this.userContext.Label.Where(x => x.LabelName.Equals(labels.LabelName) && x.UserId == label.UserId).ToList();
+                foreach(var l in updateLabel)
+                {
+                    l.LabelName = label.LabelName;
+                    this.userContext.Label.Update(l);
+                    this.userContext.SaveChanges();
+                   
+                }
+                return ("Label is updated");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
