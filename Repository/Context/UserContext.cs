@@ -32,8 +32,9 @@ namespace Repository.Context
         /// <summary>
         /// Gets or sets the user table 
         /// </summary>
-        public DbSet<RegisterModel> user { get; set; }
+        public DbSet<RegisterModel> User { get; set; }
         public DbSet<NotesModel> Notes { get; set; }
         public DbSet<CollaboratorModel> Collaborators { get; set; }
+        public DbSet<LabelModel> Label { get; set; }
     }
 }

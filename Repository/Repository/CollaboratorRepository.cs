@@ -24,7 +24,7 @@ namespace Repository.Repository
         {
             try
             {
-                var ownerId = this.userContext.user.Where(u => u.id == (this.userContext.Notes
+                var ownerId = this.userContext.User.Where(u => u.id == (this.userContext.Notes
                        .Where(x => x.NotesId == collaborator.NoteId).Select(x => x.UserId).FirstOrDefault())&& u.Email==collaborator.EmailId).SingleOrDefault();
                 if (ownerId==null)
                 {

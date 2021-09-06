@@ -52,7 +52,7 @@ namespace Repository.Repository
                 //if user id has n number of notes then push 
                 var notes = this.userContext.Notes.Where(note => note.UserId == userId && note.Trash == false && note.Archieve == false).ToList();
 
-                var emailId = userContext.user.Where(x => x.id == userId).Select(x => x.Email).SingleOrDefault();
+                var emailId = userContext.User.Where(x => x.id == userId).Select(x => x.Email).SingleOrDefault();
                 var collaboratorNotes = (from note in this.userContext.Notes
                                          join collaborator in this.userContext.Collaborators
                                          on note.NotesId equals collaborator.NoteId

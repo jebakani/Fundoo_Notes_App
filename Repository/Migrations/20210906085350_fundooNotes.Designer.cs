@@ -9,8 +9,8 @@ using Repository.Context;
 namespace Repository.Migrations
 {
     [DbContext(typeof(UserContext))]
-    [Migration("20210901081732_NotesFundoo")]
-    partial class NotesFundoo
+    [Migration("20210906085350_fundooNotes")]
+    partial class fundooNotes
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -45,7 +45,54 @@ namespace Repository.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("user");
+                    b.ToTable("User");
+                });
+
+            modelBuilder.Entity("Models.CollaboratorModel", b =>
+                {
+                    b.Property<int>("ColId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("EmailId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NoteId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ColId");
+
+                    b.HasIndex("NoteId");
+
+                    b.ToTable("Collaborators");
+                });
+
+            modelBuilder.Entity("Models.LabelModel", b =>
+                {
+                    b.Property<int>("LabelId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("LabelName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NoteId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("LabelId");
+
+                    b.HasIndex("NoteId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Label");
                 });
 
             modelBuilder.Entity("Models.NotesModel", b =>
@@ -87,6 +134,30 @@ namespace Repository.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Notes");
+                });
+
+            modelBuilder.Entity("Models.CollaboratorModel", b =>
+                {
+                    b.HasOne("Models.NotesModel", "NotesModel")
+                        .WithMany()
+                        .HasForeignKey("NoteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Models.LabelModel", b =>
+                {
+                    b.HasOne("Models.NotesModel", "NotesModel")
+                        .WithMany()
+                        .HasForeignKey("NoteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Model.RegisterModel", "RegisterModel")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Models.NotesModel", b =>
