@@ -1,4 +1,8 @@
-﻿using Models;
+﻿using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using Models;
 using Repository.Context;
 using Repository.Interface;
 using System;
@@ -12,9 +16,11 @@ namespace Repository.Repository
     public class NotesRespository : INotesRepository
     {
         private readonly UserContext userContext;
-        public NotesRespository(UserContext userContext)
+        public IConfiguration Configuration { get; }
+        public NotesRespository(UserContext userContext, IConfiguration Configuration)
         {
             this.userContext = userContext;
+            this.Configuration = Configuration;
         }
         public string AddNotes(NotesModel notes)
         {
@@ -347,6 +353,34 @@ namespace Repository.Repository
             catch (Exception e)
             {
                 throw new Exception(e.Message);
+            }
+        }
+        public bool AddImage(int noteId,IFormFile image)
+        {
+            try
+            {
+                Account account = new Account(this.Configuration.GetValue<string>("CloudConfiguration:CloudName"), this.Configuration.GetValue<string>("CloudConfiguration:APIKey"), this.Configuration.GetValue<string>("CloudConfiguration:APISecret"));
+                var cloudinary = new Cloudinary(account);
+                var uploadParams = new ImageUploadParams()
+                {
+                    File = new FileDescription(image.FileName, image.OpenReadStream()),
+                };
+
+                var uploadResult = cloudinary.Upload(uploadParams);
+                string imagePath = uploadResult.Url.ToString();
+                var notes = this.userContext.Notes.Where(x => x.NotesId == noteId).SingleOrDefault();
+                if (notes != null)
+                {
+                    notes.Image = imagePath;
+                    this.userContext.Notes.Update(notes);
+                    this.userContext.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using Manager.Interface;
+using Microsoft.AspNetCore.Http;
 using Models;
 using Repository.Interface;
 using System;
@@ -82,6 +83,10 @@ namespace Manager.Manager
         public bool EmptyTrash(int userId)
         {
             return this.repository.EmptyTrash(userId);
+        }
+        public bool AddImage(int noteId, IFormFile image)
+        {
+            return this.repository.AddImage(noteId, image);
         }
     }
 }
