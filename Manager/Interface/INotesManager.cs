@@ -30,6 +30,7 @@ namespace Manager.Interface
         bool DeleteRemainder(int noteId);
         bool EmptyTrash(int userId);
         bool AddImage(int noteId, IFormFile image);
+        bool DeleteImage(int noteId);
 
     }
 }

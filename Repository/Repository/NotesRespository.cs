@@ -383,5 +383,24 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
+        public bool DeleteImage(int noteId)
+        { 
+            try
+            {
+                var note = this.userContext.Notes.Where(x => x.NotesId == noteId).SingleOrDefault();
+                if(note!=null)
+                {
+                    note.Image = null;
+                    this.userContext.Notes.Update(note);
+                    this.userContext.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
