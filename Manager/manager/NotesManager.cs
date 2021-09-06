@@ -88,5 +88,9 @@ namespace Manager.Manager
         {
             return this.repository.AddImage(noteId, image);
         }
+        public bool DeleteImage(int noteId)
+        {
+            return this.repository.DeleteImage(noteId);
+        }
     }
 }

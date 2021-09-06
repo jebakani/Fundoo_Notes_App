@@ -53,7 +53,7 @@ namespace FundooNotes1.Repository
         {
             try
             {
-                var validEmail = this.userContext.user.Where(x => x.Email == userData.Email).FirstOrDefault();
+                var validEmail = this.userContext.User.Where(x => x.Email == userData.Email).FirstOrDefault();
                 if (validEmail == null)
                 {
                     if (userData != null)
@@ -124,7 +124,7 @@ namespace FundooNotes1.Repository
             {
                 string encodePassword = this.EncryptPassword(password);
                 ////search the data base for particular email id and password . if any one is not match then return null
-                var login = this.userContext.user.Where(x => x.Email == emailId && x.Password == encodePassword).FirstOrDefault();
+                var login = this.userContext.User.Where(x => x.Email == emailId && x.Password == encodePassword).FirstOrDefault();
                 ////if the value not equal to null then return true
                 if (login != null)
                 {
@@ -150,7 +150,7 @@ namespace FundooNotes1.Repository
         {
             try
             {
-               var validEmail = this.userContext.user.Where(x => x.Email == email).FirstOrDefault();
+               var validEmail = this.userContext.User.Where(x => x.Email == email).FirstOrDefault();
                if (validEmail != null)
                {
                     this.MSMQSend("Link for resetting the password");
@@ -188,7 +188,7 @@ namespace FundooNotes1.Repository
             {
                 if (resetPassword != null)
                 {
-                    var userData = this.userContext.user.Where(x => x.Email == resetPassword.EmailId).FirstOrDefault();
+                    var userData = this.userContext.User.Where(x => x.Email == resetPassword.EmailId).FirstOrDefault();
 
                     if (userData != null)
                     {
