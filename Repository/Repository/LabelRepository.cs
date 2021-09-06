@@ -77,7 +77,7 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
-        public string DeleteLabel(int userId, int labelName)
+        public string DeleteLabel(int userId, string labelName)
         {
             try
             {
@@ -89,6 +89,18 @@ namespace Repository.Repository
                     return ("Label is deleted");
                 }
                 return "Delete label failed";
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public List<LabelModel> GetLabelByUserId(int userId)
+        {
+            try
+            {
+                var label = this.userContext.Label.Where(x => x.UserId == userId && x.NoteId!=null).ToList();
+                return label;
             }
             catch (Exception ex)
             {
