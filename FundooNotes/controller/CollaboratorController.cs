@@ -71,7 +71,7 @@ namespace FundooNotes.Controller
         /// Controller method to Delete the collaborator
         /// </summary>
         /// <param name="collaboratorId">collaborator id as integer value is passed</param>
-        /// <returns>return the IAction result such as bad request, Ok etc.,</returns>
+        /// <returns>action result as response model</returns>
         [HttpPost]
         [Route("api/RemoveCollaborator")]
         public IActionResult RemoveCollaborator(int collaboratorId)
@@ -101,7 +101,7 @@ namespace FundooNotes.Controller
         /// Controller method to get all collaborator for particular notes
         /// </summary>
         /// <param name="noteId">notes id passed as integer</param>
-        /// <returns>the action result as ok or bad request</returns>
+        /// <returns>the action result as ok or bad request</returns>        /// <returns>action result as response model</returns>
         [HttpGet]
         [Route("api/GetCollaborator")]
         public IActionResult GetCollaborator(int noteId)
