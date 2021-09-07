@@ -1,11 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ICollaboratorRepository.cs" company="Bridgelabz">
+// <copyright file="ICollaboratorManager.cs" company="Bridgelabz">
 //   Copyright © 2021 Company="BridgeLabz"
 // </copyright>
 // <creator name="Jebakani Ishwarya"/>
 // ----------------------------------------------------------------------------------------------------------
 
-namespace Repository.Interface
+namespace Manager.Interface
 {
     using System;
     using System.Collections.Generic;
@@ -15,9 +15,9 @@ namespace Repository.Interface
     using Models;
 
     /// <summary>
-    /// Interface to access the Collaborator Repository
+    /// Interface to access the Collaborator manager
     /// </summary>
-    public interface ICollaboratorRepository
+    public interface ICollaboratorManager
     {
         /// <summary>
         /// Definition for add collaborator

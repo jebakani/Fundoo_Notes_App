@@ -24,12 +24,12 @@ namespace FundooNotes.Controller
     public class UserController : ControllerBase
     {
         /// <summary>
-        /// create the object for IUserManager
+        /// Declare the object for IUserManager
         /// </summary>
         private readonly IUserManager manager;
 
         /// <summary>
-        /// create object for ILogger
+        /// Declare object for ILogger
         /// </summary>
         private readonly ILogger<UserController> logger;
 

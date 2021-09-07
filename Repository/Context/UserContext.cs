@@ -24,7 +24,7 @@ namespace Repository.Context
         /// Constructor that overrides the base option
         /// Initializes a new instance of the <see cref="UserContext"/> class
         /// </summary>
-        /// <param name="options">configurations</param>
+        /// <param name="options"> configurations parameter</param>
         public UserContext(DbContextOptions<UserContext> options) : base(options)
         {
         }
@@ -33,8 +33,20 @@ namespace Repository.Context
         /// Gets or sets the user table 
         /// </summary>
         public DbSet<RegisterModel> User { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Notes table 
+        /// </summary>
         public DbSet<NotesModel> Notes { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Collaborators table 
+        /// </summary>
         public DbSet<CollaboratorModel> Collaborators { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Label table 
+        /// </summary>
         public DbSet<LabelModel> Label { get; set; }
     }
 }
