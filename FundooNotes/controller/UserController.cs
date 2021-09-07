@@ -16,7 +16,8 @@ namespace FundooNotes.Controller
     using Microsoft.Extensions.Logging;
     using Model;
     using Models;
-    
+    using StackExchange.Redis;
+
     /// <summary>
     /// UserController that connect view with model
     /// </summary>
@@ -85,15 +86,30 @@ namespace FundooNotes.Controller
             {
                 var result =this.manager.Login(loginData.EmailId, loginData.Password);
                 string resultMassage = this.manager.GenerateToken(loginData.EmailId);
-                if (result != null)
+                if (result.Equals("Login sucessful"))
                 {
-                    _logger.LogInformation("" + result.FirstName + " is loggedIn");
+                    
+                    ConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect("127.0.0.1:6379");
+                    IDatabase database = connectionMultiplexer.GetDatabase();
+                    string FirstName = database.StringGet("FirstName");
+                    string LastName = database.StringGet("LastName");
+                    int UserId = Convert.ToInt32(database.StringGet("UserID"));
+                    _logger.LogInformation("" + FirstName + " is loggedIn");
+                    RegisterModel userData = new RegisterModel
+                    {
+                        FirstName = FirstName,
+                        LastName = LastName,
+                        id = UserId,
+                        Email = loginData.EmailId
+
+                    };
                     ////Creates a OkResult object that produces an empty Status200OK response.
-                    return this.Ok(new  { Status = true, Message = "Login Successful", data = result.toString(),resultMassage});
+                    return this.Ok(new  { Status = true, Message = "Login Successful", data = userData, resultMassage});
                 }
                 else
                 {
                     _logger.LogWarning(loginData.EmailId+" :Login failed ");
+                   
                     ////Creates an BadRequestResult that produces a Status400BadRequest response.
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Login UnSuccessful" });
                 }

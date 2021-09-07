@@ -33,7 +33,7 @@ namespace Manager.Interface
         /// <param name="emailId">email id of type string</param>
         /// <param name="password">password of type string</param>
         /// <returns>returns true or false</returns>
-        RegisterModel Login(string emailId, string password);
+        string Login(string emailId, string password);
 
         string GenerateToken(string email);
 

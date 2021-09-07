@@ -21,6 +21,7 @@ namespace FundooNotes1.Repository
     using System.Security.Claims;
     using System.IdentityModel.Tokens.Jwt;
     using Microsoft.Extensions.Configuration;
+    using StackExchange.Redis;
 
     /// <summary>
     /// User repository class that execute the query and connect with database
@@ -118,7 +119,7 @@ namespace FundooNotes1.Repository
         /// <param name="emailId">email id of user in string</param>
         /// <param name="password">password of user in string</param>
         /// <returns>Login success or not</returns>
-        public RegisterModel Login(string emailId, string password)
+        public string Login(string emailId, string password)
         {
             try
             {
@@ -128,11 +129,16 @@ namespace FundooNotes1.Repository
                 ////if the value not equal to null then return true
                 if (login != null)
                 {
-                    return login;
+                    ConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect("127.0.0.1:6379");
+                    IDatabase database = connectionMultiplexer.GetDatabase();
+                    database.StringSet(key: "FirstName", login.FirstName);
+                    database.StringSet(key: "LastName", login.LastName);
+                    database.StringSet(key: "UserId", login.id.ToString());
+                    return "Login sucessful";
                 }
                 else
                 {
-                    return login;
+                    return "Login fail";
                 }
             }
             catch (Exception e)

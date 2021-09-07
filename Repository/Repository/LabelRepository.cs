@@ -21,10 +21,10 @@ namespace Repository.Repository
         {
             try
             {
-                var labels = this.userContext.Label.Where(x => x.LabelName.Equals(label.LabelName) && x.UserId==label.UserId).SingleOrDefault();
+                var labels = this.userContext.Label.Where(x => x.LabelName.Equals(label.LabelName) && x.UserId==label.UserId && x.NoteId==label.NoteId).SingleOrDefault();
                 if(labels==null)
                 {
-                    label.NoteId = null;
+                    //label.NoteId = null;
                     this.userContext.Label.Add(label);
                     this.userContext.SaveChanges();
                     return ("Label is added");
@@ -41,17 +41,11 @@ namespace Repository.Repository
             try
             {
                 var noteId = label.NoteId;
+                label.NoteId = null;
                 CreateLabel(label);
                 label.NoteId = noteId;
                 label.LabelId = 0;
-                var noteLabel = this.userContext.Label.Where(x => x.LabelName.Equals(label.LabelName) && x.NoteId == label.NoteId).SingleOrDefault();
-                if (noteLabel == null)
-                {
-                    this.userContext.Label.Add(label);
-                    this.userContext.SaveChanges();
-                    return ("Label is added");
-                }
-                return "Label already exists";
+                return (CreateLabel(label));
             }
             catch(Exception ex)
             {
@@ -124,12 +118,7 @@ namespace Repository.Repository
             try
             {
 
-                var labels = this.userContext.Label.Find(label.LabelId);
-                if(labels==null)
-                {
-                    return "Updation failed";
-                }
-                var updateLabel = this.userContext.Label.Where(x => x.LabelName.Equals(labels.LabelName) && x.UserId == label.UserId).ToList();
+                var updateLabel = this.userContext.Label.Where(x => x.LabelName.Equals((this.userContext.Label.Find(label.LabelId)).LabelName) && x.UserId == label.UserId).ToList();
                 foreach(var l in updateLabel)
                 {
                     l.LabelName = label.LabelName;
