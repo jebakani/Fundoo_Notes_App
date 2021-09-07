@@ -41,7 +41,7 @@ namespace Manager.Interface
         List<NotesModel> GetArchive(int userId);
 
         /// <summary>
-        /// method to get the notes that are pin
+        /// method to get the notes that are having remainder
         /// </summary>
         /// <param name="userId">User id as integer</param>
         /// <returns>List of notes that are in type of note model object</returns>
