@@ -23,8 +23,7 @@ namespace Repository.Repository
             {
                 var labels = this.userContext.Label.Where(x => x.LabelName.Equals(label.LabelName) && x.UserId==label.UserId && x.NoteId==label.NoteId).SingleOrDefault();
                 if(labels==null)
-                {
-                    //label.NoteId = null;
+                { 
                     this.userContext.Label.Add(label);
                     this.userContext.SaveChanges();
                     return ("Label is added");
