@@ -1,4 +1,11 @@
-﻿using Manager.Interface;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ICollaboratorManager.cs" company="Bridgelabz">
+//   Copyright © 2021 Company="BridgeLabz"
+// </copyright>
+// <creator name="Jebakani Ishwarya"/>
+// ----------------------------------------------------------------------------------------------------------
+
+using Manager.Interface;
 using Microsoft.AspNetCore.Http;
 using Models;
 using Repository.Interface;
