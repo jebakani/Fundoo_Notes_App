@@ -60,7 +60,7 @@ namespace Manager.Manager
         /// <param name="emailId"> emailId of type string</param>
         /// <param name="password">password of type string</param>
         /// <returns>returns whether success or failed</returns>
-        public RegisterModel Login(string emailId, string password)
+        public string Login(string emailId, string password)
         {
             try
             {
@@ -72,6 +72,11 @@ namespace Manager.Manager
             }
         }
 
+        /// <summary>
+        /// Declaring of Generate token method
+        /// </summary>
+        /// <param name="email">email of user as string</param>
+        /// <returns>return the JWT token</returns>
         public string GenerateToken(string email)
         {
             try

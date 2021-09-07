@@ -70,9 +70,18 @@ namespace FundooNotes
             services.AddTransient<ILabelRepository, LabelRepository>();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1.0", new OpenApiInfo { Title = "FundooNotes",Description = "Manage the notes and remainds you everything", Version = "1.0" });
-                // To Enable authorization using Swagger (JWT)  
-                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+                c.SwaggerDoc(
+                    "v1.0", 
+                    new OpenApiInfo
+                {
+                    Title = "FundooNotes",
+                    Description = "Manage the notes and remainds you everything", 
+                    Version = "1.0" 
+                });
+                //// To Enable authorization using Swagger (JWT)  
+                c.AddSecurityDefinition(
+                    "Bearer", 
+                    new OpenApiSecurityScheme()
                 {
                     Name = "Authorization",
                     Type = SecuritySchemeType.ApiKey,
@@ -92,8 +101,9 @@ namespace FundooNotes
                                     Id = "Bearer"
                                 }
                             },
-                            new string[] {}
-
+                            new string[]
+                            {
+                            }
                     }
                 });
             });
@@ -101,16 +111,15 @@ namespace FundooNotes
             {
                 option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-
             }).AddJwtBearer(options =>
-            {
+            { 
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = false,
                     ValidateAudience = false,
                     ValidateLifetime = false,
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this.Configuration["SecretKey"])) //Configuration["JwtToken:SecretKey"]  
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this.Configuration["SecretKey"]))
                 };
             });
         }
@@ -136,14 +145,9 @@ namespace FundooNotes
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
-            app.UseRouting();
-
-        
+            app.UseRouting();     
             app.UseAuthentication();
-
             app.UseAuthorization();
-           
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

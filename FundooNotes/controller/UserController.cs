@@ -16,26 +16,33 @@ namespace FundooNotes.Controller
     using Microsoft.Extensions.Logging;
     using Model;
     using Models;
-    
+    using StackExchange.Redis;
+
     /// <summary>
     /// UserController that connect view with model
     /// </summary>
     public class UserController : ControllerBase
     {
         /// <summary>
-        /// create the object for IUserManager
+        /// Declare the object for IUserManager
         /// </summary>
         private readonly IUserManager manager;
-        private readonly ILogger<UserController> _logger;
+
+        /// <summary>
+        /// Declare object for ILogger
+        /// </summary>
+        private readonly ILogger<UserController> logger;
+
         /// <summary>
         /// Constructor to assign object of IUserManager
         /// Initializes a new instance of the <see cref="UserController"/> class
         /// </summary>
         /// <param name="manager">IUserManager manager</param>
+        /// <param name="logger">ILogger logger</param>
         public UserController(IUserManager manager, ILogger<UserController> logger)
         {
             this.manager = manager;
-            this._logger = logger;
+            this.logger = logger;
         }
 
         /// <summary>
@@ -47,7 +54,7 @@ namespace FundooNotes.Controller
         [Route("api/register")]
         public IActionResult Register([FromBody]RegisterModel userData)
         {
-            _logger.LogInformation("Registration of new user initialized");
+            this.logger.LogInformation("Registration of new user initialized");
             try
             {
                 string result = this.manager.Register(userData);
@@ -55,19 +62,19 @@ namespace FundooNotes.Controller
                 if (result.Equals("Registration Successful"))
                 {
                     ////Creates a OkResult object that produces an empty Status200OK response.
-                    _logger.LogInformation(""+userData.FirstName+" is registered");
-                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result});
+                    this.logger.LogInformation(userData.FirstName + " is registered");
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
                 }
                 else
                 {
-                    _logger.LogError("Registration unsuccessfull");
+                    this.logger.LogError("Registration unsuccessfull");
                     ////Creates an BadRequestResult that produces a Status400BadRequest response.
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError("Error occurs:" + ex.Message);
+                this.logger.LogError("Error occurs:" + ex.Message);
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
@@ -83,24 +90,42 @@ namespace FundooNotes.Controller
         {
             try
             {
-                var result =this.manager.Login(loginData.EmailId, loginData.Password);
+                var result = this.manager.Login(loginData.EmailId, loginData.Password);
                 string resultMassage = this.manager.GenerateToken(loginData.EmailId);
-                if (result != null)
-                {
-                    _logger.LogInformation("" + result.FirstName + " is loggedIn");
+                if (result.Equals("Login sucessful"))
+                {                    
+                    ConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect("127.0.0.1:6379");
+                    IDatabase database = connectionMultiplexer.GetDatabase();
+                    string firstName = database.StringGet("FirstName");
+                    string lastName = database.StringGet("LastName");
+                    int userId = Convert.ToInt32(database.StringGet("UserID"));
+                    this.logger.LogInformation(firstName + " is loggedIn");
+                    RegisterModel userData = new RegisterModel
+                    {
+                        FirstName = firstName,
+                        LastName = lastName,
+                        id = userId,
+                        Email = loginData.EmailId
+                    };
                     ////Creates a OkResult object that produces an empty Status200OK response.
-                    return this.Ok(new  { Status = true, Message = "Login Successful", data = result.toString(),resultMassage});
+                    return this.Ok(new  
+                    { 
+                        Status = true, 
+                        Message = "Login Successful", 
+                        data = userData, resultMassage
+                    });
                 }
                 else
                 {
-                    _logger.LogWarning(loginData.EmailId+" :Login failed ");
+                    this.logger.LogWarning(loginData.EmailId + " :Login failed ");
+                   
                     ////Creates an BadRequestResult that produces a Status400BadRequest response.
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Login UnSuccessful" });
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError("Error occurs:" + ex.Message);
+                this.logger.LogError("Error occurs:" + ex.Message);
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
@@ -114,7 +139,7 @@ namespace FundooNotes.Controller
         [Route("api/forgetPassword")]
         public IActionResult ForgetPassword(string email)
         {
-            _logger.LogInformation("Forget password is initialized");
+            this.logger.LogInformation("Forget password is initialized");
             try
             {
                 bool result = this.manager.ForgetPassword(email);
@@ -149,20 +174,20 @@ namespace FundooNotes.Controller
                 bool result = this.manager.ResetPassword(resetPassword);
                 if (result == true)
                 {
-                    _logger.LogInformation("password resetted");
+                    this.logger.LogInformation("password resetted");
                     ////Creates a OkResult object that produces an empty Status200OK response.
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = "Reset password successfull" });
                 }
                 else
                 {
-                    _logger.LogWarning("password reset fail");
+                    this.logger.LogWarning("password reset fail");
                     ////Creates an BadRequestResult that produces a Status400BadRequest response.
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Reset password Unsuccessfull" });
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError("Error:"+ex.Message);
+                this.logger.LogError("Error:" + ex.Message);
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }

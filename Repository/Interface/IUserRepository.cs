@@ -32,8 +32,13 @@ namespace Repository.Inteface
         /// <param name="emailId">email id as string</param>
         /// <param name="password">password as string</param>
         /// <returns>return true or false</returns>
-        RegisterModel Login(string emailId, string password);
+        string Login(string emailId, string password);
 
+        /// <summary>
+        /// Declaring of Generate token method
+        /// </summary>
+        /// <param name="email">email of user as string</param>
+        /// <returns>return the JWT token</returns>
         string GenerateToken(string email);
 
         /// <summary>

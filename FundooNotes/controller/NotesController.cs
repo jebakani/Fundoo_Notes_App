@@ -1,24 +1,48 @@
-﻿using Manager.Interface;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="NotesController.cs" company="Bridgelabz">
+//   Copyright © 2021 Company="BridgeLabz"
+// </copyright>
+// <creator name="Jebakani Ishwarya"/>
+// ----------------------------------------------------------------------------------------------------------
 
 namespace FundooNotes.Controller
 {
-   [Authorize]
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Manager.Interface;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using Models;
+
+    /// <summary>
+    /// Notes controller class that extends ControllerBase
+    /// </summary>
+    [Authorize]
     public class NotesController : ControllerBase
-    {
+    {   
+        /// <summary>
+         /// Declaring the object for the notes manager interface
+         /// </summary>
         private readonly INotesManager manager;
+
+        /// <summary>
+        /// Notes Controller constructor through which the manager object is assigned
+        /// Initializes a new instance of the <see cref="NotesController"/> class
+        /// </summary>
+        /// <param name="manager">manager object is passed as parameter</param>
         public NotesController(INotesManager manager)
         {
             this.manager = manager;
         }
 
+        /// <summary>
+        /// Method to add new notes
+        /// </summary>
+        /// <param name="notesData">Notes model object that has all the properties of notes</param>
+        /// <returns>action result as response model</returns>
         [HttpPost]
         [Route("api/AddNotes")]
         public IActionResult AddNotes([FromBody] NotesModel notesData)
@@ -44,19 +68,24 @@ namespace FundooNotes.Controller
             }
         }
 
+        /// <summary>
+        /// method to get the all notes
+        /// </summary>
+        /// <param name="userId">User id as integer</param>
+        /// <returns>action result as response model</returns>
         [HttpGet]
         [Route("api/GetNotes")]
         public IActionResult GetNotes(int userId)
         {
             try
             {
-                //getting the result as the list of Notes model
+                ////getting the result as the list of Notes model
                 List<NotesModel> result = this.manager.GetNotes(userId);
 
-                if (result.Count!=0)
+                if (result.Count != 0)
                 {
                     ////Creates a OkResult object that produces an empty Status200OK response.
-                    return this.Ok(new { Status = true, Message = "Data is available",Data=result });
+                    return this.Ok(new { Status = true, Message = "Data is available", Data = result });
                 }
                 else
                 {
@@ -69,13 +98,19 @@ namespace FundooNotes.Controller
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+        /// <summary>
+        /// method to get the notes that are archive
+        /// </summary>
+        /// <param name="userId">User id as integer</param>
+        /// <returns>the action result as ok or bad request</returns> 
         [HttpGet]
         [Route("api/GetArchive")]
         public IActionResult GetArchive(int userId)
         {
             try
             {
-                //getting the result as the list of Notes model
+                ////getting the result as the list of Notes model
                 List<NotesModel> result = this.manager.GetArchive(userId);
 
                 if (result.Count != 0)
@@ -94,13 +129,19 @@ namespace FundooNotes.Controller
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+        /// <summary>
+        /// method to get the notes that are having remainder
+        /// </summary>
+        /// <param name="userId">User id as integer</param>
+        /// <returns>the action result as ok or bad request</returns> 
         [HttpGet]
         [Route("api/GetRemainder")]
         public IActionResult GetRemainder(int userId)
         {
             try
             {
-                //getting the result as the list of Notes model
+                ////getting the result as the list of Notes model
                 List<NotesModel> result = this.manager.GetRemainder(userId);
 
                 if (result.Count != 0)
@@ -119,13 +160,19 @@ namespace FundooNotes.Controller
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+        /// <summary>
+        /// method to get the notes that are trash
+        /// </summary>
+        /// <param name="userId">User id as integer</param>
+        /// <returns>the action result as ok or bad request</returns> 
         [HttpGet]
         [Route("api/GetTrash")]
         public IActionResult GetTrash(int userId)
         {
             try
             {
-                //getting the result as the list of Notes model
+                ////getting the result as the list of Notes model
                 List<NotesModel> result = this.manager.GetTrash(userId);
 
                 if (result.Count != 0)
@@ -146,23 +193,22 @@ namespace FundooNotes.Controller
         }
 
         /// <summary>
-        /// Api to delete the note and move to trash
+        /// API to delete the note and move to trash
         /// </summary>
         /// <param name="noteId">note id which is unique</param>
-        /// <param name="userId">user id that is foreign key</param>
-        /// <returns>returns the action </returns>
+        /// <returns>the action result as ok or bad request</returns> 
         [HttpPut]
         [Route("api/MoveToTrash")]
         public IActionResult MoveToTrash(int noteId)
         {
             try
             {
-                string result = this.manager.MoveToTrash( noteId);
+                string result = this.manager.MoveToTrash(noteId);
 
                 if (!result.Equals("Move to trash unsuccessful"))
                 {
                     ////Creates a OkResult object that produces an empty Status200OK response.
-                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result});
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
                 }
                 else
                 {
@@ -175,13 +221,19 @@ namespace FundooNotes.Controller
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+        /// <summary>
+        /// Method to restore the notes from trash
+        /// </summary>
+        /// <param name="noteId">notes id in Integer</param>
+        /// <returns>the action result as ok or bad request</returns> 
         [HttpPut]
         [Route("api/RestoreFromTrash")]
         public IActionResult RestoreFromTrash(int noteId)
         {
             try
             {
-                bool result = this.manager.RestoreFromTrash(noteId );
+                bool result = this.manager.RestoreFromTrash(noteId);
 
                 if (result)
                 {
@@ -200,6 +252,11 @@ namespace FundooNotes.Controller
             }
         }
 
+        /// <summary>
+        /// Method to move the notes to archive
+        /// </summary>
+        /// <param name="noteId">notes id in Integer</param>
+        /// <returns>the action result as ok or bad request</returns> 
         [HttpPut]
         [Route("api/MoveToArchieve")]
         public IActionResult MoveToArchieve(int noteId)
@@ -224,6 +281,12 @@ namespace FundooNotes.Controller
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+        /// <summary>
+        /// Method to un archive the notes
+        /// </summary>
+        /// <param name="noteId">notes id in Integer</param>
+        /// <returns>the action result as ok or bad request</returns> 
         [HttpPut]
         [Route("api/UnArchive")]
         public IActionResult UnArchive(int noteId)
@@ -248,6 +311,12 @@ namespace FundooNotes.Controller
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+        /// <summary>
+        /// Method to pin or unpin the note
+        /// </summary>
+        /// <param name="noteId">notes id in Integer</param>
+        /// <returns>the action result as ok or bad request</returns> 
         [HttpPut]
         [Route("api/PinAndUnpinNotes")]
         public IActionResult PinAndUnpinNotes(int noteId)
@@ -256,15 +325,15 @@ namespace FundooNotes.Controller
             {
                 string result = this.manager.PinAndUnpinNotes(noteId);
 
-                if (!(result.Equals("Pinning Unsuccessfull")))
+                if (!result.Equals("Pinning Unsuccessfull"))
                 {
                     ////Creates a OkResult object that produces an empty Status200OK response.
-                    return this.Ok(new ResponseModel<string>() { Status = true, Message =result});
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
                 }
                 else
                 {
                     ////Creates an BadRequestResult that produces a Status400BadRequest response.
-                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result});
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
                 }
             }
             catch (Exception ex)
@@ -272,9 +341,16 @@ namespace FundooNotes.Controller
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+        /// <summary>
+        /// Method to update the color in the note
+        /// </summary>
+        /// <param name="noteId">notes id in Integer</param>
+        /// <param name="color">color as string value</param>
+        /// <returns>the action result as ok or bad request</returns> 
         [HttpPut]
         [Route("api/UpdateColor")]
-        public IActionResult UpdateColor(int noteId,string color)
+        public IActionResult UpdateColor(int noteId, string color)
         {
             try
             {
@@ -296,6 +372,13 @@ namespace FundooNotes.Controller
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+        /// <summary>
+        /// Method to move the notes to trash
+        /// </summary>
+        /// <param name="noteId">notes id in Integer</param>
+        /// <param name="remainder">remainder value in terms of date and time</param>
+        /// <returns>the action result as ok or bad request</returns> 
         [HttpPut]
         [Route("api/UpdateRemainder")]
         public IActionResult UpdateRemainder(int noteId,  string remainder)
@@ -321,6 +404,11 @@ namespace FundooNotes.Controller
             }
         }
 
+        /// <summary>
+        /// Method to delete the remainder from notes
+        /// </summary>
+        /// <param name="noteId">notes id in Integer</param>
+        /// <returns>the action result as ok or bad request</returns> 
         [HttpPut]
         [Route("api/DeleteRemainder")]
         public IActionResult DeleteRemainder(int noteId)
@@ -346,6 +434,11 @@ namespace FundooNotes.Controller
             }
         }
 
+        /// <summary>
+        /// Method to update the notes
+        /// </summary>
+        /// <param name="updateNote">Notes model object that has all the properties of notes</param>
+        /// <returns>the action result as ok or bad request</returns> 
         [HttpPut]
         [Route("api/UpdateNote")]
         public IActionResult UpdateNote([FromBody] NotesUpdateModel updateNote)
@@ -354,10 +447,10 @@ namespace FundooNotes.Controller
             {
                 NotesModel result = this.manager.UpdateNote(updateNote);
 
-                if (result!=null)
+                if (result != null)
                 {
                     ////Creates a OkResult object that produces an empty Status200OK response.
-                    return this.Ok(new { Status = true, Message = "Note is updated", Data=result });
+                    return this.Ok(new { Status = true, Message = "Note is updated", Data = result });
                 }
                 else
                 {
@@ -370,6 +463,12 @@ namespace FundooNotes.Controller
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+        /// <summary>
+        /// Method to delete the notes from trash
+        /// </summary>
+        /// <param name="noteId">notes id in Integer</param>
+        /// <returns>the action result as ok or bad request</returns> 
         [HttpDelete]
         [Route("api/DeleteFromTrash")]
         public IActionResult DeleteFromTrash(int noteId)
@@ -394,6 +493,12 @@ namespace FundooNotes.Controller
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+        /// <summary>
+        /// Method to empty the trash
+        /// </summary>
+        /// <param name="userId">notes id in Integer</param>
+        /// <returns>the action result as ok or bad request</returns> 
         [HttpDelete]
         [Route("api/EmptyTrash")]
         public IActionResult EmptyTrash(int userId)
@@ -418,13 +523,20 @@ namespace FundooNotes.Controller
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+        /// <summary>
+        /// Method add image to the note
+        /// </summary>
+        /// <param name="noteId">notes id in Integer</param>
+        /// <param name="image">image as an i form </param>
+        /// <returns>the action result as ok or bad request</returns> 
         [HttpPut]
         [Route("api/AddImage")]
-        public IActionResult AddImage(int noteId,IFormFile image)
+        public IActionResult AddImage(int noteId, IFormFile image)
         {
             try
             {
-                bool result = this.manager.AddImage(noteId,image);
+                bool result = this.manager.AddImage(noteId, image);
 
                 if (result)
                 {
@@ -442,6 +554,12 @@ namespace FundooNotes.Controller
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+        /// <summary>
+        /// Method to delete the image in the notes
+        /// </summary>
+        /// <param name="noteId">notes id in Integer</param>
+        /// <returns>the action result as ok or bad request</returns> 
         [HttpPut]
         [Route("api/DeleteImage")]
         public IActionResult DeleteImage(int noteId)
