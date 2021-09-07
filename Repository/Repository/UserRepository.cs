@@ -8,19 +8,19 @@
 namespace FundooNotes1.Repository
 {
     using System;
+    using System.IdentityModel.Tokens.Jwt;
     using System.Linq;
     using System.Net;
     using System.Net.Mail;
+    using System.Security.Claims;
     using System.Text;
     using Experimental.System.Messaging;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.IdentityModel.Tokens;
     using Model;
     using Models;
     using global::Repository.Context;
     using global::Repository.Inteface;
-    using Microsoft.IdentityModel.Tokens;
-    using System.Security.Claims;
-    using System.IdentityModel.Tokens.Jwt;
-    using Microsoft.Extensions.Configuration;
     using StackExchange.Redis;
 
     /// <summary>
@@ -32,18 +32,23 @@ namespace FundooNotes1.Repository
         /// create the object for user context
         /// </summary>
         private readonly UserContext userContext;
-        public IConfiguration Configuration { get; }
 
         /// <summary>
         /// getting user context object through constructor
         /// Initializes a new instance of the <see cref="UserRepository"/> class
         /// </summary>
         /// <param name="userContext">user context object that has connection with database Context</param>
+        /// <param name="configuration">configuration object to access the app setting file</param>
         public UserRepository(UserContext userContext, IConfiguration configuration)
         {
             this.userContext = userContext;
             this.Configuration = configuration;
-        }
+        } 
+        
+        /// <summary>
+        /// Gets method to get Configuration
+        /// </summary>
+        public IConfiguration Configuration { get; }
 
         /// <summary>
         /// method for register user
@@ -70,6 +75,7 @@ namespace FundooNotes1.Repository
 
                     return "Registration UnSuccessful";
                 }
+
                 return "Email Id Already Exists";
             }
             catch (ArgumentNullException ex)
@@ -95,17 +101,23 @@ namespace FundooNotes1.Repository
             return encodedPassword;
         }
 
+        /// <summary>
+        /// Declaring of Generate token method
+        /// </summary>
+        /// <param name="email">email of user as string</param>
+        /// <returns>return the JWT token</returns>
         public string GenerateToken(string email)
         {
             var key = Encoding.UTF8.GetBytes(this.Configuration["SecretKey"]);
             SymmetricSecurityKey securityKey = new SymmetricSecurityKey(key);
             SecurityTokenDescriptor descriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[] {
-                      new Claim(ClaimTypes.Name, email)}),
+                Subject = new ClaimsIdentity(new[]
+                {
+                      new Claim(ClaimTypes.Name, email)
+                }),
                 Expires = DateTime.UtcNow.AddMinutes(30),
-                SigningCredentials = new SigningCredentials(securityKey,
-                SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature)
             };
 
             JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
@@ -172,16 +184,6 @@ namespace FundooNotes1.Repository
                 throw new Exception(e.Message);
             }
         }
-        private bool SendEmail(string email)
-        {
-            string linkToBeSend = this.ReceiveQueue(email);
-            if (this.SendMailUsingSMTP(email, linkToBeSend))
-            {
-                return true;
-            }
-
-            return false;
-        }
 
         /// <summary>
         /// method to reset the password
@@ -214,6 +216,22 @@ namespace FundooNotes1.Repository
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        /// <summary>
+        /// method to send the email by receiving the message from queue
+        /// </summary>
+        /// <param name="email">email id of receiver</param>
+        /// <returns>boolean value as true or false</returns>
+        private bool SendEmail(string email)
+        {
+            string linkToBeSend = this.ReceiveQueue(email);
+            if (this.SendMailUsingSMTP(email, linkToBeSend))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -250,7 +268,7 @@ namespace FundooNotes1.Repository
                 messageQueue.Label = "url link";
                 messageQueue.Send(message);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 throw new Exception(e.Message);
             }
@@ -261,8 +279,6 @@ namespace FundooNotes1.Repository
         /// </summary>
         /// <param name="email">email id of user to send mail</param>
         /// <returns>returns whether the mail is send or not</returns>
-        /// 
-        
         private string ReceiveQueue(string email)
         {
             ////for reading from MSMQ

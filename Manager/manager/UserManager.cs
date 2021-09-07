@@ -72,6 +72,11 @@ namespace Manager.Manager
             }
         }
 
+        /// <summary>
+        /// Declaring of Generate token method
+        /// </summary>
+        /// <param name="email">email of user as string</param>
+        /// <returns>return the JWT token</returns>
         public string GenerateToken(string email)
         {
             try
