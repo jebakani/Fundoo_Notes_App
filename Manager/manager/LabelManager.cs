@@ -106,6 +106,13 @@ namespace Manager.Manager
         {
             return this.repository.EditLabel(label);
         }
+
+        /// <summary>
+        /// declaring method to get all the notes for particular label
+        /// </summary>
+        /// <param name="labelName">label name as string</param>
+        /// <param name="userId">user id as integer</param>
+        /// <returns>list of notes</returns>
         public List<NotesModel> GetNotesByLabel(string labelName, int userId)
         {
             return this.repository.GetNotesByLabel(labelName, userId);

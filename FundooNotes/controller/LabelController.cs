@@ -244,6 +244,13 @@ namespace FundooNotes.Controller
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+        /// <summary>
+        /// declaring method to get all the notes for particular label
+        /// </summary>
+        /// <param name="labelName">label name as string</param>
+        /// <param name="userId">user id as integer</param>
+        /// <returns>list of notes</returns>
         [HttpGet]
         [Route("api/GetNotesByLabel")]
         public IActionResult GetNotesByLabel(string labelName, int userId)
@@ -255,7 +262,7 @@ namespace FundooNotes.Controller
                 if (result.Count > 0)
                 {
                     ////Creates a OkResult object that produces an empty Status200OK response.
-                    return this.Ok(new{ Status = true, Message = "Notes available", Data=result });
+                    return this.Ok(new { Status = true, Message = "Notes available", Data = result });
                 }
                 else
                 {

@@ -60,11 +60,7 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
-        /// <summary>
-        /// the method to Add the Label
-        /// </summary>
-        /// <param name="label">Label model object with id,name,user id and note Id</param>
-        /// <returns>success or fail message</returns>
+        
         /// <summary>
         /// the method to Add the Label
         /// </summary>
@@ -83,6 +79,7 @@ namespace Repository.Repository
                     this.CreateLabel(label);
                     return "Label is added";
                 }
+
                 return "Label already exists";
             }
             catch (Exception ex)
@@ -197,15 +194,18 @@ namespace Repository.Repository
                         l.LabelName = label.LabelName;
                         this.userContext.Label.Update(l);
                     }
+
                     if (checkLabelName != null)
                     {
                         this.MergeLabel(checkLabelName, updateLabel);
                         this.userContext.SaveChanges();
                         return "Merge the " + oldName + " label with the " + label.LabelName + " label? All notes labeled with " + oldName + " will be labeled with " + label.LabelName + " and the " + oldName + " label will be deleted.";
                     }
+
                     this.userContext.SaveChanges();
                     return "Label is updated";
                 }
+
                 return "No Label available";
             }
             catch (Exception ex)
@@ -213,22 +213,14 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
-        private void MergeLabel(List<LabelModel> existingLabel,List<LabelModel> newLabelList)
-        {
-            foreach(var e in existingLabel)
-            {
-                foreach(var n in newLabelList)
-                {
-                    if(e.UserId==n.UserId && e.NoteId==n.NoteId)
-                    {
-                        this.userContext.Label.Remove(this.userContext.Label.Find(n.LabelId));
-                        newLabelList.Remove(n);
-                        break;
-                    }
-                }
-            }
-        }
-        public List<NotesModel> GetNotesByLabel(string labelName,int userId)
+
+        /// <summary>
+        /// declaring method to get all the notes for particular label
+        /// </summary>
+        /// <param name="labelName">label name as string</param>
+        /// <param name="userId">user id as integer</param>
+        /// <returns>list of notes</returns>
+        public List<NotesModel> GetNotesByLabel(string labelName, int userId)
         {
             try
             {
@@ -238,12 +230,34 @@ namespace Repository.Repository
                 {
                     notes.Add(this.userContext.Notes.Find(n));
                 }
+
                 return notes;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
+
+        /// <summary>
+        /// declaring method to merge the labels 
+        /// </summary>
+        /// <param name="existingLabel">label that are available already</param>
+        /// <param name="newLabelList">label that are added now</param>
+        private void MergeLabel(List<LabelModel> existingLabel, List<LabelModel> newLabelList)
+        {
+            foreach (var e in existingLabel)
+            {
+                foreach (var n in newLabelList)
+                {
+                    if (e.UserId == n.UserId && e.NoteId == n.NoteId)
+                    {
+                        this.userContext.Label.Remove(this.userContext.Label.Find(n.LabelId));
+                        newLabelList.Remove(n);
+                        break;
+                    }
+                }
+            }
+        } 
     }
 }

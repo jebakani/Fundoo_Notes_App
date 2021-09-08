@@ -536,12 +536,12 @@ namespace FundooNotes.Controller
         {
             try
             {
-                bool result = this.manager.AddImage(noteId, image);
+                string result = this.manager.AddImage(noteId, image);
 
-                if (result)
+                if (result != "Image cannot be added")
                 {
                     ////Creates a OkResult object that produces an empty Status200OK response.
-                    return this.Ok(new ResponseModel<string> { Status = true, Message = "Image added successfully" });
+                    return this.Ok(new ResponseModel<string> { Status = true, Message = "Image added successfully", Data=result });
                 }
                 else
                 {

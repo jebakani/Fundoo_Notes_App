@@ -139,7 +139,7 @@ namespace Manager.Interface
         /// <param name="noteId">notes id in Integer</param>
         /// <param name="image">image as an i form </param>
         /// <returns>boolean value as true or false</returns>
-        bool AddImage(int noteId, IFormFile image);
+        string AddImage(int noteId, IFormFile image);
 
         /// <summary>
         /// Method to delete the image in the notes

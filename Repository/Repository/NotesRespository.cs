@@ -216,7 +216,7 @@ namespace Repository.Repository
                     this.userContext.SaveChanges();
                     return true;
                 }
-
+                
                 return false;
             }
             catch (Exception e)
@@ -428,7 +428,6 @@ namespace Repository.Repository
                     this.userContext.SaveChanges();
                     return true;
                 }
-
                 return false;
             }
             catch (Exception e)
@@ -494,7 +493,7 @@ namespace Repository.Repository
         /// <param name="noteId">notes id in Integer</param>
         /// <param name="image">image as an i form </param>
         /// <returns>boolean value as true or false</returns>
-        public bool AddImage(int noteId, IFormFile image)
+        public string AddImage(int noteId, IFormFile image)
         {
             try
             {
@@ -513,10 +512,10 @@ namespace Repository.Repository
                     notes.Image = imagePath;
                     this.userContext.Notes.Update(notes);
                     this.userContext.SaveChanges();
-                    return true;
+                    return "Image is updated";
                 }
 
-                return false;
+                return imagePath;
             }
             catch (Exception ex)
             {
