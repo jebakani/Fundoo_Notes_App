@@ -60,7 +60,7 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
-
+        
         /// <summary>
         /// the method to Add the Label
         /// </summary>
@@ -70,12 +70,17 @@ namespace Repository.Repository
         {
             try
             {
-                var noteId = label.NoteId;
-                label.NoteId = null;
-                this.CreateLabel(label);
-                label.NoteId = noteId;
-                label.LabelId = 0;
-                return this.CreateLabel(label);
+                var labels = this.userContext.Label.Where(x => x.LabelName.Equals(label.LabelName) && x.UserId == label.UserId && x.NoteId == label.NoteId).SingleOrDefault();
+                if (labels == null)
+                {
+                    this.CreateLabel(label);
+                    label.NoteId = null;
+                    label.LabelId = 0;
+                    this.CreateLabel(label);
+                    return "Label is added";
+                }
+
+                return "Label already exists";
             }
             catch (Exception ex)
             {
@@ -178,21 +183,81 @@ namespace Repository.Repository
         public string EditLabel(LabelModel label)
         {
             try
-            { 
-                var updateLabel = this.userContext.Label.Where(x => x.LabelName.Equals(this.userContext.Label.Find(label.LabelId).LabelName) && x.UserId == label.UserId).ToList();
-                foreach (var l in updateLabel)
+            {
+                var oldName = this.userContext.Label.Find(label.LabelId).LabelName;
+                var updateLabel = this.userContext.Label.Where(x => x.LabelName.Equals(oldName) && x.UserId == label.UserId).ToList();
+                if (updateLabel != null)
                 {
-                    l.LabelName = label.LabelName;
-                    this.userContext.Label.Update(l);
-                    this.userContext.SaveChanges();
-                } 
+                    var checkLabelName = this.userContext.Label.Where(x => x.LabelName.Equals(label.LabelName) && x.UserId == label.UserId).ToList();
+                    foreach (var l in updateLabel)
+                    {
+                        l.LabelName = label.LabelName;
+                        this.userContext.Label.Update(l);
+                    }
 
-                return "Label is updated";
+                    if (checkLabelName != null)
+                    {
+                        this.MergeLabel(checkLabelName, updateLabel);
+                        this.userContext.SaveChanges();
+                        return "Merge the " + oldName + " label with the " + label.LabelName + " label? All notes labeled with " + oldName + " will be labeled with " + label.LabelName + " and the " + oldName + " label will be deleted.";
+                    }
+
+                    this.userContext.SaveChanges();
+                    return "Label is updated";
+                }
+
+                return "No Label available";
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
+
+        /// <summary>
+        /// declaring method to get all the notes for particular label
+        /// </summary>
+        /// <param name="labelName">label name as string</param>
+        /// <param name="userId">user id as integer</param>
+        /// <returns>list of notes</returns>
+        public List<NotesModel> GetNotesByLabel(string labelName, int userId)
+        {
+            try
+            {
+                var noteId = this.userContext.Label.Where(x => x.LabelName.Equals(labelName) && x.UserId == userId && x.NoteId != null).Select(x => x.NoteId).ToList();
+                List<NotesModel> notes = new List<NotesModel>();
+                foreach (var n in noteId)
+                {
+                    notes.Add(this.userContext.Notes.Find(n));
+                }
+
+                return notes;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// declaring method to merge the labels 
+        /// </summary>
+        /// <param name="existingLabel">label that are available already</param>
+        /// <param name="newLabelList">label that are added now</param>
+        private void MergeLabel(List<LabelModel> existingLabel, List<LabelModel> newLabelList)
+        {
+            foreach (var e in existingLabel)
+            {
+                foreach (var n in newLabelList)
+                {
+                    if (e.UserId == n.UserId && e.NoteId == n.NoteId)
+                    {
+                        this.userContext.Label.Remove(this.userContext.Label.Find(n.LabelId));
+                        newLabelList.Remove(n);
+                        break;
+                    }
+                }
+            }
+        } 
     }
 }

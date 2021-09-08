@@ -163,7 +163,7 @@ namespace Manager.Manager
         /// <param name="noteId">notes id in Integer</param>
         /// <param name="color">color as string value</param>
         /// <returns>boolean value as true or false</returns>
-        public bool UpdateColor(int noteId, string color)
+        public string UpdateColor(int noteId, string color)
         {
             return this.repository.UpdateColor(noteId, color);
         }
@@ -174,7 +174,7 @@ namespace Manager.Manager
         /// <param name="noteId">notes id in Integer</param>
         /// <param name="remainder">remainder value in terms of date and time</param>
         /// <returns>boolean value as true or false</returns>
-        public bool UpdateRemainder(int noteId, string remainder)
+        public string UpdateRemainder(int noteId, string remainder)
         {
             return this.repository.UpdateRemainder(noteId, remainder);
         }
@@ -205,7 +205,7 @@ namespace Manager.Manager
         /// <param name="noteId">notes id in Integer</param>
         /// <param name="image">image as an i form </param>
         /// <returns>boolean value as true or false</returns>
-        public bool AddImage(int noteId, IFormFile image)
+        public string AddImage(int noteId, IFormFile image)
         {
             return this.repository.AddImage(noteId, image);
         }

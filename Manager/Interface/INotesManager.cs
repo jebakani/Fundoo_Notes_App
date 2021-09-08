@@ -109,7 +109,7 @@ namespace Manager.Interface
         /// <param name="noteId">notes id in Integer</param>
         /// <param name="color">color as string value</param>
         /// <returns>boolean value as true or false</returns>
-        bool UpdateColor(int noteId, string color);
+        string UpdateColor(int noteId, string color);
 
         /// <summary>
         /// Method to move the notes to trash
@@ -117,7 +117,7 @@ namespace Manager.Interface
         /// <param name="noteId">notes id in Integer</param>
         /// <param name="remainder">remainder value in terms of date and time</param>
         /// <returns>boolean value as true or false</returns>
-        bool UpdateRemainder(int noteId, string remainder);
+        string UpdateRemainder(int noteId, string remainder);
 
         /// <summary>
         /// Method to delete the remainder from notes
@@ -139,7 +139,7 @@ namespace Manager.Interface
         /// <param name="noteId">notes id in Integer</param>
         /// <param name="image">image as an i form </param>
         /// <returns>boolean value as true or false</returns>
-        bool AddImage(int noteId, IFormFile image);
+        string AddImage(int noteId, IFormFile image);
 
         /// <summary>
         /// Method to delete the image in the notes

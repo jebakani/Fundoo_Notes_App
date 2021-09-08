@@ -68,5 +68,13 @@ namespace Manager.Interface
         /// <param name="label">Label model object with id,name,user id and note Id</param>
         /// <returns>success or fail message</returns>
         string EditLabel(LabelModel label);
+
+        /// <summary>
+        /// declaring method to get all the notes for particular label
+        /// </summary>
+        /// <param name="labelName">label name as string</param>
+        /// <param name="userId">user id as integer</param>
+        /// <returns>list of notes</returns>
+        List<NotesModel> GetNotesByLabel(string labelName, int userId);
     }
 }
