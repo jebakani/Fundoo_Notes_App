@@ -106,5 +106,9 @@ namespace Manager.Manager
         {
             return this.repository.EditLabel(label);
         }
+        public List<NotesModel> GetNotesByLabel(string labelName, int userId)
+        {
+            return this.repository.GetNotesByLabel(labelName, userId);
+        }
     }
 }

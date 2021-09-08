@@ -212,5 +212,22 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
+        public List<NotesModel> GetNotesByLabel(string labelName,int userId)
+        {
+            try
+            {
+                var noteId = this.userContext.Label.Where(x => x.LabelName.Equals(labelName) && x.UserId == userId && x.NoteId != null).Select(x => x.NoteId).ToList();
+                List<NotesModel> notes = new List<NotesModel>();
+                foreach (var n in noteId)
+                {
+                    notes.Add(this.userContext.Notes.Find(n));
+                }
+                return notes;
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

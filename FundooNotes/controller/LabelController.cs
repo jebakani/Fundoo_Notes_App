@@ -228,7 +228,7 @@ namespace FundooNotes.Controller
             {
                 var result = this.manager.EditLabel(label);
 
-                if (result.Equals("Label is updated"))
+                if (!result.Equals("No Label available"))
                 {
                     ////Creates a OkResult object that produces an empty Status200OK response.
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
@@ -237,6 +237,30 @@ namespace FundooNotes.Controller
                 {
                     ////Creates an BadRequestResult that produces a Status400BadRequest response.
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "No label available" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+        [HttpGet]
+        [Route("api/GetNotesByLabel")]
+        public IActionResult GetNotesByLabel(string labelName, int userId)
+        {
+            try
+            {
+                var result = this.manager.GetNotesByLabel(labelName, userId);
+
+                if (result.Count > 0)
+                {
+                    ////Creates a OkResult object that produces an empty Status200OK response.
+                    return this.Ok(new{ Status = true, Message = "Notes available", Data=result });
+                }
+                else
+                {
+                    ////Creates an BadRequestResult that produces a Status400BadRequest response.
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "No Notes available" });
                 }
             }
             catch (Exception ex)

@@ -68,5 +68,7 @@ namespace Repository.Interface
         /// <param name="label">Label model object with id,name,user id and note Id</param>
         /// <returns>success or fail message</returns>
         string EditLabel(LabelModel label);
+
+        List<NotesModel> GetNotesByLabel(string labelName, int userId);
     }
 }
