@@ -354,12 +354,12 @@ namespace FundooNotes.Controller
         {
             try
             {
-                bool result = this.manager.UpdateColor(noteId, color);
+                string result = this.manager.UpdateColor(noteId, color);
 
-                if (result)
+                if (!result.Equals("Color cannot be updated"))
                 {
                     ////Creates a OkResult object that produces an empty Status200OK response.
-                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Color is updated" });
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Color is updated" ,Data = result });
                 }
                 else
                 {

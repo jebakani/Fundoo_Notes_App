@@ -389,7 +389,7 @@ namespace Repository.Repository
         /// <param name="noteId">notes id in Integer</param>
         /// <param name="color">color as string value</param>
         /// <returns>boolean value as true or false</returns>
-        public bool UpdateColor(int noteId,  string color)
+        public string UpdateColor(int noteId,  string color)
         {
             try
             {
@@ -399,10 +399,10 @@ namespace Repository.Repository
                     note.Color = color;
                     this.userContext.Notes.Update(note);
                     this.userContext.SaveChanges();
-                    return true;
+                    return "Color is updated";
                 }
 
-                return false;
+                return color;
             }
             catch (Exception e)
             {
