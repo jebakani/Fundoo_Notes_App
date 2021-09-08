@@ -416,7 +416,7 @@ namespace Repository.Repository
         /// <param name="noteId">notes id in Integer</param>
         /// <param name="remainder">remainder value in terms of date and time</param>
         /// <returns>boolean value as true or false</returns>
-        public bool UpdateRemainder(int noteId, string remainder)
+        public string UpdateRemainder(int noteId, string remainder)
         {
             try
             {
@@ -426,9 +426,9 @@ namespace Repository.Repository
                     note.Remainder = remainder;
                     this.userContext.Notes.Update(note);
                     this.userContext.SaveChanges();
-                    return true;
+                    return "remainder is added";
                 }
-                return false;
+                return remainder;
             }
             catch (Exception e)
             {

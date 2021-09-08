@@ -385,12 +385,12 @@ namespace FundooNotes.Controller
         {
             try
             {
-                bool result = this.manager.UpdateRemainder(noteId,  remainder);
+                string result = this.manager.UpdateRemainder(noteId,  remainder);
 
-                if (result)
+                if (!result.Equals("Remainder cannot be added"))
                 {
                     ////Creates a OkResult object that produces an empty Status200OK response.
-                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "remainder is updated" });
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "remainder is updated" , Data = result});
                 }
                 else
                 {
