@@ -12,6 +12,7 @@ namespace FundooNotes.Controller
     using System.Linq;
     using System.Threading.Tasks;
     using Manager.Interface;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
     using Model;
@@ -28,6 +29,8 @@ namespace FundooNotes.Controller
         /// </summary>
         private readonly IUserManager manager;
 
+        const string SessionName = "UserName";
+        const string SessionMail = "EmailId";
         /// <summary>
         /// Declare object for ILogger
         /// </summary>
@@ -55,15 +58,19 @@ namespace FundooNotes.Controller
         public IActionResult Register([FromBody]RegisterModel userData)
         {
             this.logger.LogInformation("Registration of new user initialized");
+            HttpContext.Session.SetString(SessionName, userData.FirstName+" "+userData.LastName);
+            HttpContext.Session.SetString(SessionMail, userData.Email);
             try
             {
                 string result = this.manager.Register(userData);
-
+       
                 if (result.Equals("Registration Successful"))
                 {
+                    var name = HttpContext.Session.GetString(SessionName);
+                    var email = HttpContext.Session.GetString(SessionMail);
                     ////Creates a OkResult object that produces an empty Status200OK response.
                     this.logger.LogInformation(userData.FirstName + " is registered");
-                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result ,Data =" Session detailes :"+name+" "+email});
                 }
                 else
                 {
