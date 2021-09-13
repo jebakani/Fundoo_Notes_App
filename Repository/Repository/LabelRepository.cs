@@ -119,11 +119,11 @@ namespace Repository.Repository
         /// <param name="userId">user id as integer</param>
         /// <param name="labelName">label name as string</param>
         /// <returns>success or fail message</returns>
-        public string DeleteLabel(int userId, string labelName)
+        public string DeleteLabel(LabelModel label)
         {
             try
             {
-                var deleteLabel = this.userContext.Label.Where(x => x.LabelName.Equals(labelName) && x.UserId == userId).ToList();
+                var deleteLabel = this.userContext.Label.Where(x => x.LabelName.Equals(label.LabelName) && x.UserId == label.UserId).ToList();
                 if (deleteLabel != null)
                 {
                     this.userContext.Label.RemoveRange(deleteLabel);
@@ -220,11 +220,11 @@ namespace Repository.Repository
         /// <param name="labelName">label name as string</param>
         /// <param name="userId">user id as integer</param>
         /// <returns>list of notes</returns>
-        public List<NotesModel> GetNotesByLabel(string labelName, int userId)
+        public List<NotesModel> GetNotesByLabel(LabelModel label)
         {
             try
             {
-                var noteId = this.userContext.Label.Where(x => x.LabelName.Equals(labelName) && x.UserId == userId && x.NoteId != null).Select(x => x.NoteId).ToList();
+                var noteId = this.userContext.Label.Where(x => x.LabelName.Equals(label.LabelName) && x.UserId == label.LabelId && x.NoteId != null).Select(x => x.NoteId).ToList();
                 List<NotesModel> notes = new List<NotesModel>();
                 foreach (var n in noteId)
                 {
