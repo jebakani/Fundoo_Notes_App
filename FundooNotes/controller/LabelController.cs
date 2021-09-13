@@ -12,12 +12,14 @@ namespace FundooNotes.Controller
     using System.Linq;
     using System.Threading.Tasks;
     using Manager.Interface;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Models;
 
     /// <summary>
     /// Label Controller class to create the controller method that controls the label actions 
     /// </summary>
+    [Authorize]
     public class LabelController : ControllerBase
     {
         /// <summary>
@@ -132,11 +134,11 @@ namespace FundooNotes.Controller
         /// <returns>action result as response model</returns>
         [HttpDelete]
         [Route("api/DeleteLabel")]
-        public IActionResult DeleteLabel(int userId, string labelName)
+        public IActionResult DeleteLabel([FromBody] LabelModel label)
         {
             try
             {
-                string result = this.manager.DeleteLabel(userId, labelName);
+                string result = this.manager.DeleteLabel(label);
 
                 if (result.Equals("Label is deleted"))
                 {
@@ -253,11 +255,11 @@ namespace FundooNotes.Controller
         /// <returns>list of notes</returns>
         [HttpGet]
         [Route("api/GetNotesByLabel")]
-        public IActionResult GetNotesByLabel(string labelName, int userId)
+        public IActionResult GetNotesByLabel([FromBody] LabelModel label)
         {
             try
             {
-                var result = this.manager.GetNotesByLabel(labelName, userId);
+                var result = this.manager.GetNotesByLabel(label);
 
                 if (result.Count > 0)
                 {

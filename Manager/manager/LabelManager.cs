@@ -72,9 +72,9 @@ namespace Manager.Manager
         /// <param name="userId">user id as integer</param>
         /// <param name="labelName">label name as string</param>
         /// <returns>success or fail message</returns>
-        public string DeleteLabel(int userId, string labelName)
+        public string DeleteLabel(LabelModel label)
         {
-            return this.repository.DeleteLabel(userId, labelName);
+            return this.repository.DeleteLabel(label);
         }
 
         /// <summary>
@@ -113,9 +113,9 @@ namespace Manager.Manager
         /// <param name="labelName">label name as string</param>
         /// <param name="userId">user id as integer</param>
         /// <returns>list of notes</returns>
-        public List<NotesModel> GetNotesByLabel(string labelName, int userId)
+        public List<NotesModel> GetNotesByLabel(LabelModel label)
         {
-            return this.repository.GetNotesByLabel(labelName, userId);
+            return this.repository.GetNotesByLabel(label);
         }
     }
 }

@@ -46,7 +46,7 @@ namespace Repository.Interface
         /// <param name="userId">user id as integer</param>
         /// <param name="labelName">label name as string</param>
         /// <returns>success or fail message</returns>
-        string DeleteLabel(int userId, string labelName);
+        string DeleteLabel(LabelModel label);
 
         /// <summary>
         /// declaring the method to get the Label
@@ -75,6 +75,6 @@ namespace Repository.Interface
         /// <param name="labelName">label name as string</param>
         /// <param name="userId">user id as integer</param>
         /// <returns>list of notes</returns>
-        List<NotesModel> GetNotesByLabel(string labelName, int userId);
+        List<NotesModel> GetNotesByLabel(LabelModel label);
     }
 }
