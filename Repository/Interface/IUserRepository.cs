@@ -46,7 +46,7 @@ namespace Repository.Inteface
         /// </summary>
         /// <param name="emailId">email id as string</param>
         /// <returns>return true or false</returns>
-        bool ForgetPassword(string emailId);
+        string ForgetPassword(string emailId);
 
         /// <summary>
         /// method to Register the user

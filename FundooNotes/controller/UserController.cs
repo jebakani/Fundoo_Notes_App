@@ -21,7 +21,10 @@ namespace FundooNotes.Controller
 
     /// <summary>
     /// UserController that connect view with model
-    /// </summary>
+    /// </summary
+    
+    [ApiController]
+    [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
         /// <summary>
@@ -54,7 +57,7 @@ namespace FundooNotes.Controller
         /// <param name="userData">User data contains user details</param>
         /// <returns>result of the action</returns>
         [HttpPost]
-        [Route("api/register")]
+        [Route("register")]
         public IActionResult Register([FromBody]RegisterModel userData)
         {
             this.logger.LogInformation("Registration of new user initialized");
@@ -74,7 +77,7 @@ namespace FundooNotes.Controller
                 }
                 else
                 {
-                    this.logger.LogError("Registration unsuccessfull");
+                    this.logger.LogError("Registration unsuccessfull! try again");
                     ////Creates an BadRequestResult that produces a Status400BadRequest response.
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
                 }
@@ -92,15 +95,15 @@ namespace FundooNotes.Controller
         /// <param name="loginData">Login data contains emailId and password</param>
         /// <returns>result of the action</returns>
         [HttpPost]
-        [Route("api/login")]
+        [Route("login")]
         public IActionResult Login([FromBody]LoginModel loginData)
         {
             try
             {
                 var result = this.manager.Login(loginData.EmailId, loginData.Password);
-                string resultMassage = this.manager.GenerateToken(loginData.EmailId);
                 if (result.Equals("Login sucessful"))
-                {                    
+                {                 
+                    string resultMassage = this.manager.GenerateToken(loginData.EmailId);
                     ConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect("127.0.0.1:6379");
                     IDatabase database = connectionMultiplexer.GetDatabase();
                     string firstName = database.StringGet("FirstName");
@@ -127,7 +130,7 @@ namespace FundooNotes.Controller
                     this.logger.LogWarning(loginData.EmailId + " :Login failed ");
                    
                     ////Creates an BadRequestResult that produces a Status400BadRequest response.
-                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Login UnSuccessful" });
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Login UnSuccessful ! check user email and password" });
                 }
             }
             catch (Exception ex)
@@ -143,17 +146,19 @@ namespace FundooNotes.Controller
         /// <param name="email">gives the user email id</param>
         /// <returns>returns the result whether the action is success or fail</returns>
         [HttpPost]
-        [Route("api/forgetPassword")]
+        [Route("forgetPassword")]
         public IActionResult ForgetPassword(string email)
         {
             this.logger.LogInformation("Forget password is initialized");
             try
             {
-                bool result = this.manager.ForgetPassword(email);
-                if (result == true)
+                string result = this.manager.ForgetPassword(email);
+
+                if (!result.Equals("Reset password Unsuccessfull"))
                 {
+            
                     ////Creates a OkResult object that produces an empty Status200OK response.
-                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Link to reset password is send to mail" });
+                    return this.Ok(new  { Status = true, Message = "Link to reset password is send to mail", data= email,result});
                 }
                 else
                 {
@@ -173,7 +178,7 @@ namespace FundooNotes.Controller
         /// <param name="resetPassword">reset model data a</param>
         /// <returns>returns the status such as success or fail</returns>
         [HttpPut]
-        [Route("api/resetPassword")]
+        [Route("resetPassword")]
         public IActionResult ResetPassword([FromBody]ResetPasswordModel resetPassword)
         {
             try

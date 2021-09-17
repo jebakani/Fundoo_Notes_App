@@ -42,7 +42,7 @@ namespace Manager.Manager
         /// </summary>
         /// <param name="emailId">emailId of type string</param>
         /// <returns>returns whether success or failure</returns>
-        public bool ForgetPassword(string emailId)
+        public string ForgetPassword(string emailId)
         {
             try
             {

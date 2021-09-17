@@ -116,7 +116,7 @@ namespace FundooNotes1.Repository
                 {
                       new Claim(ClaimTypes.Name, email)
                 }),
-                Expires = DateTime.UtcNow.AddMinutes(30),
+                Expires = DateTime.UtcNow.AddMinutes(10),
                 SigningCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature)
             };
 
@@ -145,7 +145,7 @@ namespace FundooNotes1.Repository
                     IDatabase database = connectionMultiplexer.GetDatabase();
                     database.StringSet(key: "FirstName", login.FirstName);
                     database.StringSet(key: "LastName", login.LastName);
-                    database.StringSet(key: "UserId", login.id.ToString());
+                    database.StringSet(key: "UserID", login.id.ToString());
                     return "Login sucessful";
                 }
                 else
@@ -164,19 +164,28 @@ namespace FundooNotes1.Repository
         /// </summary>
         /// <param name="email">email as string</param>
         /// <returns>send mail to user</returns>
-        public bool ForgetPassword(string email)
+        public string ForgetPassword(string email)
         {
             try
             {
+               var token = this.GenerateToken(email);
+               var url = "http://localhost:4200/reset-password/"+token;
                var validEmail = this.userContext.User.Where(x => x.Email == email).FirstOrDefault();
                if (validEmail != null)
                {
-                    this.MSMQSend("Link for resetting the password");
-                    return this.SendEmail(email);
+                    this.MSMQSend(url);
+                    if (this.SendEmail(email))
+                    {
+                        return token;
+                    }
+                    else
+                    {
+                        return "Reset password Unsuccessfull";
+                    }
                }
                else
                {
-                    return false;
+                    return "Reset password Unsuccessfull";
                }
             } 
             catch (Exception e)

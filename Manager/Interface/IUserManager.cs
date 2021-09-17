@@ -47,7 +47,7 @@ namespace Manager.Interface
         /// </summary>
         /// <param name="emailId">email id of type string</param>
         /// <returns>returns true or false</returns>
-        bool ForgetPassword(string emailId);
+        string ForgetPassword(string emailId);
 
         /// <summary>
         /// Reset password method
